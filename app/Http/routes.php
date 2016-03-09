@@ -12,9 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $projects = \App\Project::all();
+    return view('welcome')
+        ->with('projects', $projects);
 });
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
