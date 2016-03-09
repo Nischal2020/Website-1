@@ -3,7 +3,12 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+/*
+ * criado com
+ * php artisan make:migration create_projects_table --create="projects"
+ * na consola no diretório do projecto
+ */
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +17,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id')->unique();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password', 60);
-            $table->string('avatar');
+            $table->text('description');
+            $table->dateTime('start_date');
+            $table->integer('coordenator_id');
+            $table->string('logo');
             $table->string('version_control');
-            $table->text('about')->nullable();
-            $table->integer('course_id');
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop('projects');
     }
 }
