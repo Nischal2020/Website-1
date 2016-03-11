@@ -20,10 +20,10 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable(); //Poderá não ter descrição
             $table->dateTime('start_date');
-            $table->integer('coordenator_id');
-            $table->string('logo');
+            $table->integer('coordenator_id')->nullable(); //Poderá (temporáriamente) não ter coordenador, caso o actual deixe de o ser
+            $table->string('logo')->nullable(); //Poderá não ter logo
             $table->string('version_control');
             $table->timestamps();
         });
