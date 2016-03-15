@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ProgrammingLanguage extends Migration
+class CreateProgrammingLanguageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,10 @@ class ProgrammingLanguage extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('programming_language', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +25,6 @@ class ProgrammingLanguage extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('programming_language');
     }
 }
