@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProgrammingLanguageTable extends Migration
+class CreateRequisitionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateProgrammingLanguageTable extends Migration
      */
     public function up()
     {
-        Schema::create('programming_language', function (Blueprint $table) {
+        Schema::create('requisitions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('designation');
-            $table->text('description')->nullable(); // Poderá não ter descrição
+            $table->date_time('requisition_date');
+            $table->date_time('devolution_date');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateProgrammingLanguageTable extends Migration
      */
     public function down()
     {
-        Schema::drop('programming_language');
+        Schema::drop('requisitions');
     }
 }

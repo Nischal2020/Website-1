@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequisitionTable extends Migration
+class CreateProgrammingLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateRequisitionTable extends Migration
      */
     public function up()
     {
-        Schema::create('requisition', function (Blueprint $table) {
+        Schema::create('programming_languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->date_time('requisition_date');
-            $table->date_time('devolution_date');
+            $table->string('designation');
+            $table->text('description')->nullable(); // Poderá não ter descrição
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateRequisitionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('requisition');
+        Schema::drop('programming_languages');
     }
 }
