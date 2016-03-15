@@ -14,6 +14,8 @@ class CreateProgrammingLanguageTable extends Migration
     {
         Schema::create('programming_language', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('designation');
+            $table->text('description')->nullable(); // Poderá não ter descrição
             $table->timestamps();
         });
     }

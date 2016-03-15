@@ -14,6 +14,8 @@ class CreateRequisitionTable extends Migration
     {
         Schema::create('requisition', function (Blueprint $table) {
             $table->increments('id');
+            $table->date_time('requisition_date');
+            $table->date_time('devolution_date');
             $table->timestamps();
         });
     }
