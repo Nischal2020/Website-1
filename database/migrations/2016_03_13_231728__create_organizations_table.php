@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Material extends Migration
+class CreateOrganizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,12 @@ class Material extends Migration
      */
     public function up()
     {
-         Schema::create('Material', function (Blueprint $table) {
+           Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('description');
+            $table->string('name');
+            $table->string('URLLogo');
+            $table->string('URLorg');
+            $table->boolean('intradepartment');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class Material extends Migration
      */
     public function down()
     {
-        Schema::drop('Material');
+        Schema::drop('organizations');
     }
 }
