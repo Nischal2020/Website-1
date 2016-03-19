@@ -24,8 +24,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function projects()
+    //Function that returns the course of the user
+    public function course()
     {
-        return $this->belongsToMany('App\Projecto');
+        return $this->belongsTo('App\Course');
+    }
+
+    public function coordinates()
+    {
+        return $this->hasMany('App\Project');
     }
 }

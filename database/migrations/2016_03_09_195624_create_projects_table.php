@@ -23,6 +23,7 @@ class CreateProjectsTable extends Migration
             $table->text('description')->nullable(); //Poderá não ter descrição
             $table->dateTime('start_date');
             $table->integer('coordenator_id')->nullable(); //Poderá (temporáriamente) não ter coordenador, caso o actual deixe de o ser
+            $table->foreign('coordenator_id')->references('id')->on('users')->onDelete('cascade'); 
             $table->string('logo')->nullable(); //Poderá não ter logo
             $table->string('version_control');
             $table->timestamps();

@@ -18,8 +18,15 @@ class Project extends Model
      * https://laravel.com/docs/5.2/eloquent-relationships#many-to-many
      *
      */
-    public function users()
+
+    public function organizations()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\Organization');
     }
+
+    public function coordinator()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

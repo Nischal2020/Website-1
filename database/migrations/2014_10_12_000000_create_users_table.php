@@ -21,7 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('version_control')->nullable();
             $table->text('about')->nullable();
-            $table->integer('course_id')->nullable();
+            //user_id foreign key for the relation studies
+            $table->integer('course_id')->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade'); 
             $table->rememberToken();
             $table->timestamps();
         });
