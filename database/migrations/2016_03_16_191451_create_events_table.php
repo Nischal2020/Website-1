@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->dateTime('eventDate');
-            $table->string('URLPoster');
+            $table->string('poster');
             $table->string('location');
             $table->boolean('external'); //If it's not an intra-department event
             $table->timestamps();

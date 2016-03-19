@@ -17,7 +17,6 @@ class Project extends Model
      * relação com o modelo "User" Many to Many
      * https://laravel.com/docs/5.2/eloquent-relationships#many-to-many
      *
-     * NÃO É NECESSÁRIO FAZER EM TODOS OS MODELOS
      */
     public function users()
     {
