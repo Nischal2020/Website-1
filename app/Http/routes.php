@@ -12,10 +12,12 @@
 */
 
 Route::get('/', function () {
-    $projects = \App\Project::all();
-    return view('welcome')
-        ->with('projects', $projects);
+    //$projects = \App\Project::all();
+    return view('welcome');
+        //->with('projects', $projects);
 });
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -29,4 +31,10 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['web']], function () {
     //
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
 });

@@ -2,23 +2,19 @@
 
 ## Para que serve?
 O website servirá para hospedar toda a informação pública sobre o clube.
-Estarão contidas as seguintes infos.
-- Membros
-- Projetos
-- Calendário de Provas
-- Contatos
+
+Planificação encontra-se no seguinte ficheiro: https://docs.google.com/document/d/15a1cZwKuzJUQL6qXQopzf7St_sRMNMwAibtOW-Wp82g
+
 
 ## Equipa
 
 ####Coordenador
-(a definir)
+- Ricardo Mendes
 ####Membros
 - João Moreira
 - Mário Santos
 - Vasco Ferreira
-- Carlos Sobral
 - Gabriel Lopes
-- Ricardo Mendes
-- Filipe Lopes
 - Bruna Nogueira
 - Pedro Girão
+- José Gonçalves
