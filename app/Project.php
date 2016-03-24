@@ -28,5 +28,9 @@ class Project extends Model
     {
         return $this->belongsTo('App\User');
     }
+    public function programminglanguages()
+    {
+        return $this->belongsToMany('App\ProgrammingLanguage');
+    }
 
 }
