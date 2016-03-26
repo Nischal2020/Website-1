@@ -10,4 +10,8 @@ class Organization extends Model
     {
     	return $this->belongsToMany('App\Project');
     }
+    public function associates() // no Trello está "associate", seria "associates"
+    {
+    	return $this->belongsToMany('App\Event');
+    }
 }

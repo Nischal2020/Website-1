@@ -38,4 +38,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Event');
     }
+    public function knowledges()
+    {
+        return $this->belongsToMany('App\ProgrammingLanguage');
+    }
+    public function has()
+    {
+        return $this->belongsTo('App\Role');
+    }
 }

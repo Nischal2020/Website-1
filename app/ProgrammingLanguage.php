@@ -10,4 +10,8 @@ class ProgrammingLanguage extends Model
     {
     	return $this->belongsToMany('App\Project');
     }
+    public function users()
+    {
+    	return $this->belongsToMany('App\User');
+    }
 }
