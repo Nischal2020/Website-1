@@ -12,13 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
 
-
-    /*
-     * relação com o modelo "User" Many to Many
-     * https://laravel.com/docs/5.2/eloquent-relationships#many-to-many
-     *
-     */
-
     public function organizations()
     {
         return $this->belongsToMany('App\Organization');
@@ -28,7 +21,8 @@ class Project extends Model
     {
         return $this->belongsTo('App\User');
     }
-    public function programminglanguages()
+
+    public function programmingLanguages()
     {
         return $this->belongsToMany('App\ProgrammingLanguage');
     }

@@ -34,14 +34,17 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Project');
     }
+
     public function events()
     {
         return $this->belongsToMany('App\Event');
     }
+
     public function knowledges()
     {
         return $this->belongsToMany('App\ProgrammingLanguage');
     }
+    
     public function has()
     {
         return $this->belongsTo('App\Role');

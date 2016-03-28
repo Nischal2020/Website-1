@@ -12,7 +12,7 @@ class CreateEventGuestTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_user', function (Blueprint $table) {
+        Schema::create('event_guest', function (Blueprint $table) {
             $table->integer('event_id')->unsigned()->index();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->integer('guest_id')->unsigned()->index();
