@@ -3,22 +3,20 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrganizationProjectTable extends Migration
+class CreateEventOrganizationTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    //Created new table project_organization for the many to many relation (partnership)
     public function up()
     {
-        Schema::create('organization_project', function (Blueprint $table) {
+        Schema::create('event_organization', function (Blueprint $table) {
+            $table->integer('event_id')->unsigned()->index();
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->integer('organization_id')->unsigned()->index();
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->integer('project_id')->unsigned()->index();
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            
         });
     }
 
@@ -29,6 +27,6 @@ class CreateOrganizationProjectTable extends Migration
      */
     public function down()
     {
-        Schema::drop('organization_project');
+        Schema::drop('event_organization');
     }
 }
