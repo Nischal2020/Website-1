@@ -49,4 +49,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Role');
     }
+    public function envolved()
+    {
+        return $this->belongsToMany('App\Project');
+    }
+    public function belongs()
+    {
+        return $this->belongsToMany('App\Organization');
+    }
 }
