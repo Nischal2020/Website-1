@@ -27,4 +27,9 @@ class Project extends Model
         return $this->belongsToMany('App\ProgrammingLanguage');
     }
 
+    public function participants()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
 }
