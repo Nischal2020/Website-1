@@ -16,18 +16,35 @@ Route::get('/', function () {
     return view('welcome');
         //->with('projects', $projects);
 });
-/*
- * Routes para os Users.
- *
- */
-// URL: /users ALIAS INTERNO: 'get.users' CONTROLADOR: UsersController FUNÇÃO: getAll
-Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
-// URL: /users/username ALIAS INTERNO: 'get.users' CONTROLADOR: UsersController FUNÇÃO: getUser
-Route::get('users/{username}', ['as' => 'get.users.single', 'uses' => 'UsersController@getUser']);
 
-Route::post('users/{username}', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
-Route::put('users', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
-Route::delete('users/{username}', ['as' => 'delete.users', 'users' => 'UsersController@deleteUser']);
+//API routes
+Route::group(['prefix' => 'api/v1'], function() {
+
+	/*
+	 * Routes para os Users.
+	 */
+	// URL: /users ALIAS INTERNO: 'get.users' CONTROLADOR: UsersController FUNÇÃO: getAll
+	Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
+	// URL: /users/username ALIAS INTERNO: 'get.users.single' CONTROLADOR: UsersController FUNÇÃO: getUser
+	Route::get('users/{identification}', ['as' => 'get.users.single', 'uses' => 'UsersController@getUser']);
+	Route::post('users/{identification}', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
+	Route::put('users', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
+	Route::delete('users/{identification}', ['as' => 'delete.users', 'uses' => 'UsersController@deleteUser']);
+
+
+	/*
+	 * Role Routes
+	 */
+	Route::get('roles', ['as' => 'get.roles', 'uses' => 'RolesController@getAll']);
+	Route::get('roles/{id}', ['as' => 'get.roles.single', 'uses' => 'RolesController@getRole']);
+	Route::post('roles/{id}', ['as' => 'post.roles', 'uses' => 'RolesController@postRole']);
+	Route::put('roles', ['as' => 'put.roles', 'uses' => 'RolesController@putRole']);
+	Route::delete('roles/{id}', ['as' => 'delete.roles', 'uses' => 'RolesController@deleteRole']);
+
+
+
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +57,6 @@ Route::delete('users/{username}', ['as' => 'delete.users', 'users' => 'UsersCont
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
-});
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
