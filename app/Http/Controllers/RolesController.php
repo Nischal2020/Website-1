@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Role
+use App\Role;
 
 class RolesController extends Controller
 {
@@ -19,25 +19,40 @@ class RolesController extends Controller
     }
 
     public function getRole($id){
-    	$role = Role::where('id', $id)->get();
+    	$role = Role::where('id', $id)->get()->first();
     	if($role != NULL){
     		return $role;
     	}
-    	 if($role == NULL) {
-            \App::abort(404);
-            return NULL;
-        }
+        \App::abort(404);
+        return NULL;
     }
 
-    public function postRole(Request $request, $id){
+    public function putRole(Request $request, $id){
     	$input = $request->except('_token');
-    	$role = $this.getRole($id);
+    	$role = $this->getRole($id);
     	if($role == NULL) {
             \App::abort(404);
             return NULL;
         }
 
         $role->update($input);
+    }
+
+    public function postRole(Request $request){
+        
+        $role = new Role;
+        $role->designation = $request->designation;
+        $role->save();        
+        
+    }
+
+    public function deleteRole(Request $request, $id){
+        $role = $this->getRole($id);
+        if($role == NULL) {
+            \App::abort(404);
+            return NULL;
+        }
+        $role->delete();
     }
 
 }

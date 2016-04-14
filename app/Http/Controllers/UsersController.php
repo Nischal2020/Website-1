@@ -21,7 +21,7 @@ class UsersController extends Controller
         $idPossibilities = array("student_id", "email");
 
         foreach($idPossibilities as $id){
-            $user = User::where($id, $identification)->get();
+            $user = User::where($id, $identification)->get()->first();
             if($user!=NULL){
                 return $user;
             } 
@@ -35,7 +35,7 @@ class UsersController extends Controller
         
     }
 
-    public function postUser(Request $request, $identification)
+    public function putUser(Request $request, $identification)
     {
         $input = $request->except('_token');
         // TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)

@@ -27,8 +27,8 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
 	// URL: /users/username ALIAS INTERNO: 'get.users.single' CONTROLADOR: UsersController FUNÇÃO: getUser
 	Route::get('users/{identification}', ['as' => 'get.users.single', 'uses' => 'UsersController@getUser']);
-	Route::post('users/{identification}', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
-	Route::put('users', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
+	Route::post('users', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
+	Route::put('users/{identification}', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
 	Route::delete('users/{identification}', ['as' => 'delete.users', 'uses' => 'UsersController@deleteUser']);
 
 
@@ -37,12 +37,15 @@ Route::group(['prefix' => 'api/v1'], function() {
 	 */
 	Route::get('roles', ['as' => 'get.roles', 'uses' => 'RolesController@getAll']);
 	Route::get('roles/{id}', ['as' => 'get.roles.single', 'uses' => 'RolesController@getRole']);
-	Route::post('roles/{id}', ['as' => 'post.roles', 'uses' => 'RolesController@postRole']);
-	Route::put('roles', ['as' => 'put.roles', 'uses' => 'RolesController@putRole']);
+	Route::post('roles', ['as' => 'post.roles', 'uses' => 'RolesController@postRole']);
+	Route::put('roles/{id}', ['as' => 'put.roles', 'uses' => 'RolesController@putRole']);
 	Route::delete('roles/{id}', ['as' => 'delete.roles', 'uses' => 'RolesController@deleteRole']);
 
-
-
+	Route::get('courses', ['as' => 'get.courses', 'uses' => 'CoursesController@getAll']);
+	Route::get('courses/{id}', ['as' => 'get.courses.single', 'uses' => 'CoursesController@getCourse']);
+	Route::post('courses', ['as' => 'post.courses', 'uses' => 'CoursesController@postCourse']);
+	Route::put('courses/{id}', ['as' => 'put.courses', 'uses' => 'CoursesController@putCourse']);
+	Route::delete('courses/{id}', ['as' => 'delete.courses', 'uses' => 'CoursesController@deleteCourse']);
 });
 
 
