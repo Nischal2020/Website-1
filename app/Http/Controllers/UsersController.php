@@ -14,6 +14,9 @@ class UsersController extends Controller
         return User::all();
     }
 
+    /*
+     * Obtem dados sobre utilizador
+     */
     public function getUser($username)
     {
         $user = User::where('username', $username)->get();
@@ -24,6 +27,9 @@ class UsersController extends Controller
         return $user;
     }
 
+    /*
+     * Atualiza utilizador
+     */
     public function postUser(Request $request, $username)
     {
         $input = $request->except('_token');
@@ -36,5 +42,26 @@ class UsersController extends Controller
         $user->update($input);
 
 
+    }
+
+    /*
+     * Regista utilizador na base de dados
+     */
+    public function putUser(Request $request)
+    {
+        $input = $request->except('_token');
+        if($this->putValidation($input)) {
+
+        }
+    }
+
+    private function putValidation($input)
+    {
+        $validationarray = [
+            'username' => 'required',
+            'password' => 'required'
+        ];
+        $validator = Validator::make($input, $validationarray);
+        return $validator->passes();
     }
 }
