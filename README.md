@@ -10,6 +10,7 @@ Planificação encontra-se no seguinte ficheiro: https://docs.google.com/documen
 
 ####Coordenador
 - Ricardo Mendes
+
 ####Membros
 - João Moreira
 - Mário Santos

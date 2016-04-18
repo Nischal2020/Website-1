@@ -14,4 +14,8 @@ class Organization extends Model
     {
     	return $this->belongsToMany('App\Event');
     }
+    public function getOrganizations()
+    {
+    	return $this->belongsToMany('App\User');
+    }
 }
