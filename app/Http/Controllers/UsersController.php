@@ -20,7 +20,7 @@ class UsersController extends Controller
     public function getUser($identification)
     {   
         //$identification may be username, student_id or email
-        $idPossibilities = array("student_id", "email");
+        $idPossibilities = array("username", "student_id", "email");
 
         foreach($idPossibilities as $id){
             $user = User::where($id, $identification)->get()->first();
@@ -62,12 +62,12 @@ class UsersController extends Controller
                 "student_id" => $input['student_id'],
                 "email" => $input['email']
             ]);
-            Auth::login($user); // Login the new user.
+            \Auth::login($user); // Login the new user.
             return redirect('home')->with('message', 'Bem vindo ao Clube de Programação!'); // return to web.app/home with success message
         }
         // user didn't validate, return to old page.
 
-        return Redirect::back()->with('error', 'Algo de errado aconteceu.')->withErrors(); // error message bag.
+        return \Redirect::back()->with('error', 'Algo de errado aconteceu.')->withErrors(); // error message bag.
     }
 
 
@@ -89,12 +89,12 @@ class UsersController extends Controller
     private function putValidation($input)
     {
         $validationarray = [
-            'username' => 'required',
+            'username' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'student_id' => ["required", "Regex:/^(uc|a)([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
+            'student_id' => ["required|unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
             'password' => 'required|confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
         ];
-        $validator = Validator::make($input, $validationarray);
+        $validator = \Validator::make($input, $validationarray);
         return $validator->passes();
     }
 }
