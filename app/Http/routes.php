@@ -33,7 +33,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 
 
 	/*
-	 * Role Routes
+	 * Roles Routes
 	 */
 	Route::get('roles', ['as' => 'get.roles', 'uses' => 'RolesController@getAll']);
 	Route::get('roles/{id}', ['as' => 'get.roles.single', 'uses' => 'RolesController@getRole']);
@@ -41,11 +41,32 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::put('roles/{id}', ['as' => 'put.roles', 'uses' => 'RolesController@putRole']);
 	Route::delete('roles/{id}', ['as' => 'delete.roles', 'uses' => 'RolesController@deleteRole']);
 
+	/*
+	 * Courses Routes
+	 */
 	Route::get('courses', ['as' => 'get.courses', 'uses' => 'CoursesController@getAll']);
 	Route::get('courses/{id}', ['as' => 'get.courses.single', 'uses' => 'CoursesController@getCourse']);
 	Route::post('courses', ['as' => 'post.courses', 'uses' => 'CoursesController@postCourse']);
 	Route::put('courses/{id}', ['as' => 'put.courses', 'uses' => 'CoursesController@putCourse']);
 	Route::delete('courses/{id}', ['as' => 'delete.courses', 'uses' => 'CoursesController@deleteCourse']);
+
+	/*
+	 * Requisitions Routes
+	 */
+	Route::get('requisitions', ['as' => 'get.requisitions', 'uses' => 'RequisitionsController@getAll']);
+	Route::get('requisitions/{id}', ['as' => 'get.requisitions.single', 'uses' => 'RequisitionsController@getRequisition']);
+	Route::post('requisitions', ['as' => 'post.requisitions', 'uses' => 'RequisitionsController@postRequisition']);
+	Route::put('requisitions/{id}', ['as' => 'put.requisitions', 'uses' => 'RequisitionsController@putRequisition']);
+	Route::delete('requisitions/{id}', ['as' => 'delete.requisitions', 'uses' => 'RequisitionsController@deleteRequisition']);
+
+	/*
+	 * Programming_Languages Routes
+	 */
+	Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'Programming_LanguagesController@getAll']);
+	Route::get('programming_languages/{id}', ['as' => 'get.programming_languages.single', 'uses' => 'Programming_LanguagesController@getProgramming_Language']);
+	Route::post('programming_languages', ['as' => 'post.programming_languages', 'uses' => 'Programming_LanguagesController@postProgramming_Languagee']);
+	Route::put('programming_languages/{id}', ['as' => 'put.programming_languages', 'uses' => 'Programming_LanguagesController@putProgramming_Language']);
+	Route::delete('programming_languages/{id}', ['as' => 'delete.programming_languages', 'uses' => 'Programming_LanguagesController@deleteProgramming_Language']);
 });
 
 

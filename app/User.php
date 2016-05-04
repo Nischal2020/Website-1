@@ -24,8 +24,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    //Function that returns the course of the user
+    /*//Function that returns the course of the user
     public function course()
+    {
+        return $this->belongsTo('App\Course');
+    }*/
+
+    //Function that returns the course of the user
+    public function studies()
     {
         return $this->belongsTo('App\Course');
     }
@@ -35,7 +41,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Project');
     }
 
-    public function events()
+    /*public function events()
+    {
+        return $this->belongsToMany('App\Event');
+    }*/
+
+    public function participates()
     {
         return $this->belongsToMany('App\Event');
     }
@@ -58,7 +69,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Organization');
     }
 
-    public function requisitions()
+    /*public function requisitions()
+    {
+        return $this->hasMany('App\Requisition');
+    }*/
+
+    public function does()
     {
         return $this->hasMany('App\Requisition');
     }
