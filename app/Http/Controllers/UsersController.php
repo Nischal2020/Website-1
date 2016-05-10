@@ -1,10 +1,10 @@
-<?php
+<?php namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
 // TODO: need to change all the redirects, they need to be done client-side.
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User;
+use App\Http\Responses\CustomJsonResponse;
 
 class UsersController extends Controller
 {
@@ -17,8 +17,7 @@ class UsersController extends Controller
     /*
      * Obtem dados sobre utilizador
      */
-    public function getUser($identification)
-    {   
+    private function fetchUser($identification){
         //$identification may be username, student_id or email
         $idPossibilities = array("username", "student_id", "email");
 
@@ -28,11 +27,20 @@ class UsersController extends Controller
                 return $user;
             }
         }
-        
-        //If it reaches here, user doesn't exist
-        \App::abort(404);
+
         return NULL;
-        
+    }
+
+    public function getUser($identification)
+    {   
+        $user = fetchUser($identification);
+
+        if(!$user){
+            //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        return NULL;
     }
     /*
      * Atualiza utilizador
@@ -41,10 +49,9 @@ class UsersController extends Controller
     {
         $input = $request->except('_token');
         // TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)
-        $user = $this->getUser($identification);
+        $user = $this->fetchUser($identification);
         if($user == NULL) {
-            \App::abort(404);
-            return NULL;
+            return new CustomJsonResponse(false,"User not found", 404);
         }
         
         $validator = $this->getValidator($input, $identification);
