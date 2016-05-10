@@ -46,6 +46,7 @@ class UsersController extends Controller
             \App::abort(404);
             return NULL;
         }
+        
         $validator = $this->getValidator($input, $identification);
         if($validator->passes()) {
             $user->update($input);
@@ -104,7 +105,7 @@ class UsersController extends Controller
     private function getValidator($input, $id)
     {
         if($id == NULL) { //post (creation)
-            $validationarray = [
+            $validationArray = [
                 'username' => 'required|unique:users',
                 'email' => 'required|email|unique:users',
                 'student_id' => ["required|unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
@@ -114,7 +115,7 @@ class UsersController extends Controller
                 'avatar' => 'url'
             ];
         } else { //put (update)
-            $validationarray = [
+            $validationArray = [
                 'username' => 'unique:users',
                 'email' => 'email|unique:users',
                 'student_id' => ["unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
@@ -124,7 +125,7 @@ class UsersController extends Controller
             ];
         }
 
-        $validator = \Validator::make($input, $validationarray);
+        $validator = \Validator::make($input, $validationArray);
         return $validator;
     }
 }

@@ -35,14 +35,27 @@ class OrganizationsController extends Controller
             return NULL;
         }
 
-        $organization->update($input);
+        $validator = $this->getValidator($input, $id);
+        if($validator->passes()) {
+            $organization->update($input);
+            return $organization;
+        } else {
+            return $validator->errors()->getMessages();
+        }
     }
 
     public function postOrganization(Request $request){
-        
-        $organization = new Organization;
-        $organization->designation = $request->designation;
-        $organization->save();        
+        $input = $request->except('_token');
+        $validator = $this->getValidator($input, NULL);
+        if($validator->passes()) {
+            $organization = new Organization;
+            $organization->designation = $request->designation;
+            $organization->save();
+            return $organization;
+        } else {
+            return $validator->errors()->getMessages();
+        }
+
         
     }
 
@@ -53,6 +66,28 @@ class OrganizationsController extends Controller
             return NULL;
         }
         $organization->delete();
+    }
+
+    private function getValidator($input, $id)
+    {
+        if($id == NULL) { //post (creation)
+            $validationArray = [
+                'name' => 'required|unique:organizations',
+                'website' => 'url|unique:organizations',
+                'logo' => 'url',
+                'intradepartment' => 'required|boolean'
+            ];
+        } else { //put (update)
+            $validationArray = [
+                'name' => 'unique:organizations',
+                'website' => 'url|unique:organizations',
+                'logo' => 'url',
+                'intradepartment' => 'boolean'
+            ];
+        }
+
+        $validator = \Validator::make($input, $validationArray);
+        return $validator;
     }
 
 }
