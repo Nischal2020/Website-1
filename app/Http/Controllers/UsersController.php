@@ -46,12 +46,17 @@ class UsersController extends Controller
             \App::abort(404);
             return NULL;
         }
-
-        if($this->runValidation($input, $identification)) {
+        $validator = $this->getValidator($input, $identification);
+        if($validator->passes()) {
             $user->update($input);
             return $user;
+        } else {
+            return $validator->errors()->getMessages();
         }
 
+
+        \App::abort(404);
+        return NULL;
     }
 
     /*
@@ -60,7 +65,8 @@ class UsersController extends Controller
     public function postUser(Request $request)
     {
         $input = $request->except('_token');
-        if($this->runValidation($input, NULL)) {
+        $validator = $this->getValidator($input, NULL);
+        if($validator->passes()) {
             $user = User::create([
                 "username" => $input['username'],
                 "password" => Hash::make($input['password']),
@@ -68,9 +74,11 @@ class UsersController extends Controller
                 "email" => $input['email']
             ]);
             return $user;
+        } else {
+            return $validator->errors()->getMessages();
         }
 
-        //Validation failed
+
         \App::abort(404);
         return NULL;
     }
@@ -85,13 +93,15 @@ class UsersController extends Controller
             return NULL;
         }
         $user->delete();
-        return ['message', 'sucess']; // TODO: change this return.
+        return ['message', 'success']; // TODO: change this return.
     }
     /*
      * Valida as informações vindas do utilizador
      * DOCS: https://laravel.com/docs/5.2/validation
+     *
+     * TODO: Validator errors
      */
-    private function runValidation($input, $id)
+    private function getValidator($input, $id)
     {
         if($id == NULL) { //post (creation)
             $validationarray = [
@@ -115,6 +125,6 @@ class UsersController extends Controller
         }
 
         $validator = \Validator::make($input, $validationarray);
-        return $validator->passes();
+        return $validator;
     }
 }
