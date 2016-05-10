@@ -41,14 +41,29 @@ class CoursesController extends Controller
         }
 
         $course->update($input);
+
+        $validator = $this->getValidator($input, $id);
+        if($validator->passes()) {
+            $user->update($input);
+            return $user;
+        } else {
+            return $validator->errors()->getMessages();
+        }
     }
 
     public function postCourse(Request $request){
         
-        $course = new Course;
-        $course->name = $request->name;
-        $course->initials = $request->initials;
-        $course->save();        
+        $validator = $this->getValidator($input, NULL);
+        if($validator->passes()) {
+            $course = new Course;
+            $course->name = $request->name;
+            $course->initials = $request->initials;
+            $course->save();
+            ]);
+            return $course;
+        } else {
+            return $validator->errors()->getMessages();
+        }       
     }
 
     public function deleteCourse(Request $request, $id){
@@ -58,5 +73,31 @@ class CoursesController extends Controller
             return NULL;
         }
         $course->delete();
+        return ['message', 'success']; // TODO: change this return.
+    }
+
+    /*
+     * Valida as informações vindas do curso
+     * DOCS: https://laravel.com/docs/5.2/validation
+     *
+     * TODO: Validator errors
+     */
+    private function getValidator($input, $id)
+    {
+        if($id == NULL) { //post (creation)
+            $validationArray = [
+                'name' => 'required|unique:courses',
+                'initials' => 'required|unique:courses'
+            ];
+        } else { //put (update)
+            $validationArray = [
+                'name' => 'unique:courses',
+                'initials' => 'unique:courses'
+            ];
+        }
+
+        $validator = \Validator::make($input, $validationArray);
+        return $validator;
     }
 }
+
