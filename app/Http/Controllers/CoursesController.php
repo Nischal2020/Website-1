@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Course;
+use App\Http\Responses\CustomJsonResponse;
 
 class CoursesController extends Controller
 {
@@ -18,69 +19,83 @@ class CoursesController extends Controller
         return Course::all();
     }
 
-    //            $table->string('name')->unique();
-    //        $table->string('initials')->unique();
+    private function fetchCourse($identification){
+        //$identification may be id, username, student_id or email
+        $idPossibilities = array("id", "name", "initials");
+
+        foreach($idPossibilities as $id){
+            $course = Course::where($id, $identification)->get()->first();
+            if($course != NULL){
+                return $course;
+            }
+        }
+        return NULL;
+    }
 
     public function getCourse($id){
-    	$course = Course::where('id', $id)->get()->first();
-    	if($course != NULL){
-    		return $course;
-    	}
-    	
-        \App::abort(404);
-        return NULL;
+        $course = $this->fetchCourse($id);
+        if($course == NULL){
+            return new CustomJsonResponse(false,"Course not found", 404);
+        }
+        return new CustomJsonResponse(true, $course, 200);
         
     }
 
     public function putCourse(Request $request, $id){
-    	$input = $request->except('_token');
-    	$course = $this->getCourse($id);
-    	if($course == NULL) {
-            \App::abort(404);
-            return NULL;
-        }
-
-        $course->update($input);
-
+        $input = $request->except('_token');
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
-            $user->update($input);
-            return $user;
-        } else {
-            return $validator->errors()->getMessages();
+            $course = $this->fetchCourse($id);
+            if($course == NULL) {
+                return new CustomJsonResponse(false,"Course not found", 404);
+            }
+
+            if(isset($input['name']))
+                $course->name = $input['name'];
+
+            if(isset($input['initials']))
+                $course->initials = $input['initials'];
+
+            $course->save();
+            return new CustomJsonResponse(true, $course, 200);
+        }  else {
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
+
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
     public function postCourse(Request $request){
-        
+
+        $input = $request->except('_token');
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $course = new Course;
             $course->name = $request->name;
             $course->initials = $request->initials;
             $course->save();
-            ]);
-            return $course;
+            return new CustomJsonResponse(true, $course, 200);
         } else {
-            return $validator->errors()->getMessages();
-        }       
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
+        }
+
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
     public function deleteCourse(Request $request, $id){
-        $course = $this->getCourse($id);
+        $course = $this->fetchCourse($id);
         if($course == NULL) {
-            \App::abort(404);
-            return NULL;
+            return new CustomJsonResponse(false,"Course not found", 404);
         }
         $course->delete();
-        return ['message', 'success']; // TODO: change this return.
+        return new CustomJsonResponse(true, "Course successfully deleted", 200);
     }
 
     /*
      * Valida as informações vindas do curso
      * DOCS: https://laravel.com/docs/5.2/validation
-     *
-     * TODO: Validator errors
      */
     private function getValidator($input, $id)
     {

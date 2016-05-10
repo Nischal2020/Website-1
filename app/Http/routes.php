@@ -81,37 +81,37 @@ Route::group(['prefix' => 'api/v1'], function() {
 	 * Materials Routes
 	 */
 	Route::get('materials', ['as' => 'get.materials', 'uses' => 'MaterialsController@getAll']);
-	Route::get('materials/{id}', ['as' => 'get.materials.single', 'uses' => 'MaterialsController@getOrganization']);
-	Route::post('materials', ['as' => 'post.materials', 'uses' => 'MaterialsController@postOrganization']);
-	Route::put('materials/{id}', ['as' => 'put.materials', 'uses' => 'MaterialsController@putOrganization']);
-	Route::delete('materials/{id}', ['as' => 'delete.materials', 'uses' => 'MaterialsController@deleteOrganization']);
+	Route::get('materials/{id}', ['as' => 'get.materials.single', 'uses' => 'MaterialsController@getMaterial']);
+	Route::post('materials', ['as' => 'post.materials', 'uses' => 'MaterialsController@postMaterial']);
+	Route::put('materials/{id}', ['as' => 'put.materials', 'uses' => 'MaterialsController@putMaterial']);
+	Route::delete('materials/{id}', ['as' => 'delete.materials', 'uses' => 'MaterialsController@deleteMaterial']);
 
 	/*
 	 * Events Routes
 	 */
 	Route::get('events', ['as' => 'get.events', 'uses' => 'EventsController@getAll']);
-	Route::get('events/{id}', ['as' => 'get.events.single', 'uses' => 'EventsController@getOrganization']);
-	Route::post('events', ['as' => 'post.events', 'uses' => 'EventsController@postOrganization']);
-	Route::put('events/{id}', ['as' => 'put.events', 'uses' => 'EventsController@putOrganization']);
-	Route::delete('events/{id}', ['as' => 'delete.events', 'uses' => 'EventsController@deleteOrganization']);
+	Route::get('events/{id}', ['as' => 'get.events.single', 'uses' => 'EventsController@getEvent']);
+	Route::post('events', ['as' => 'post.events', 'uses' => 'EventsController@postEvent']);
+	Route::put('events/{id}', ['as' => 'put.events', 'uses' => 'EventsController@putEvent']);
+	Route::delete('events/{id}', ['as' => 'delete.events', 'uses' => 'EventsController@deleteEvent']);
 
 	/*
 	 * Guests Routes
 	 */
 	Route::get('guests', ['as' => 'get.guests', 'uses' => 'GuestsController@getAll']);
-	Route::get('guests/{id}', ['as' => 'get.guests.single', 'uses' => 'GuestsController@getOrganization']);
-	Route::post('guests', ['as' => 'post.guests', 'uses' => 'GuestsController@postOrganization']);
-	Route::put('guests/{id}', ['as' => 'put.guests', 'uses' => 'GuestsController@putOrganization']);
-	Route::delete('guests/{id}', ['as' => 'delete.guests', 'uses' => 'GuestsController@deleteOrganization']);
+	Route::get('guests/{id}', ['as' => 'get.guests.single', 'uses' => 'GuestsController@getGuest']);
+	Route::post('guests', ['as' => 'post.guests', 'uses' => 'GuestsController@postGuest']);
+	Route::put('guests/{id}', ['as' => 'put.guests', 'uses' => 'GuestsController@putGuest']);
+	Route::delete('guests/{id}', ['as' => 'delete.guests', 'uses' => 'GuestsController@deleteGuest']);
 
 	/*
 	 * Projects Routes
 	 */
 	Route::get('projects', ['as' => 'get.projects', 'uses' => 'ProjectsController@getAll']);
-	Route::get('projects/{id}', ['as' => 'get.projects.single', 'uses' => 'ProjectsController@getOrganization']);
-	Route::post('projects', ['as' => 'post.projects', 'uses' => 'ProjectsController@postOrganization']);
-	Route::put('projects/{id}', ['as' => 'put.projects', 'uses' => 'ProjectsController@putOrganization']);
-	Route::delete('projects/{id}', ['as' => 'delete.projects', 'uses' => 'ProjectsController@deleteOrganization']);
+	Route::get('projects/{id}', ['as' => 'get.projects.single', 'uses' => 'ProjectsController@getProject']);
+	Route::post('projects', ['as' => 'post.projects', 'uses' => 'ProjectsController@postProject']);
+	Route::put('projects/{id}', ['as' => 'put.projects', 'uses' => 'ProjectsController@putProject']);
+	Route::delete('projects/{id}', ['as' => 'delete.projects', 'uses' => 'ProjectsController@deleteProject']);
 });
 
 

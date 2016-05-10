@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Organization;
+use App\Http\Responses\CustomJsonResponse;
 
 class OrganizationsController extends Controller
 {
@@ -18,54 +19,86 @@ class OrganizationsController extends Controller
         return Organization::all();
     }
 
-    public function getOrganization($id){
+    private function fetchOrganization($id){
         $organization = Organization::where('id', $id)->get()->first();
         if($organization != NULL){
             return $organization;
         }
-        \App::abort(404);
         return NULL;
+    }
+
+    public function getOrganization($id){
+        $organization = $this->fetchOrganization($id);
+        if($organization == NULL){
+            return new CustomJsonResponse(false,"Organization not found", 404);
+        }
+        return new CustomJsonResponse(true, $organization, 200);
     }
 
     public function putOrganization(Request $request, $id){
         $input = $request->except('_token');
-        $organization = $this->getOrganization($id);
-        if($organization == NULL) {
-            \App::abort(404);
-            return NULL;
-        }
-
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
-            $organization->update($input);
-            return $organization;
-        } else {
-            return $validator->errors()->getMessages();
+            $organization = $this->fetchOrganization($id);
+            if($organization == NULL) {
+                return new CustomJsonResponse(false,"Organization not found", 404);
+            }
+
+            if(isset($input['name']))
+                $organization->name = $input['name'];
+
+            if(isset($input['website']))
+                $organization->website = $input['website'];
+
+            if(isset($input['logo']))
+                $organization->logo = $input['logo'];
+
+            if(isset($input['intradepartment']))
+                $organization->intradepartment = $input['intradepartment'];
+
+            $organization->save();
+            return new CustomJsonResponse(true, $organization, 200);
+        }  else {
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
+
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
     public function postOrganization(Request $request){
         $input = $request->except('_token');
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
-            $organization = new Organization;
-            $organization->designation = $request->designation;
+            $organization = new Organization();
+            //Required data
+            $organization->name = $request->name;
+            $organization->intradepartment = $request->intradepartment;
+
+            //Optional data
+            if(isset($input['website']))
+                $organization->website = $input['website'];
+
+            if(isset($input['logo']))
+                $organization->logo = $input['logo'];
+
             $organization->save();
-            return $organization;
+            return new CustomJsonResponse(true, $organization, 200);
         } else {
-            return $validator->errors()->getMessages();
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
 
         
     }
 
     public function deleteOrganization(Request $request, $id){
-        $organization = $this->getOrganization($id);
+        $organization = $this->fetchOrganization($id);
         if($organization == NULL) {
-            \App::abort(404);
-            return NULL;
+            return new CustomJsonResponse(false,"Organization not found", 404);
         }
         $organization->delete();
+        return new CustomJsonResponse(true, "Organization successfully deleted", 200);
+
     }
 
     private function getValidator($input, $id)

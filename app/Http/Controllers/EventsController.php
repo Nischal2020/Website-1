@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Event;
+use App\Http\Responses\CustomJsonResponse;
 
 class EventsController extends Controller
 {
@@ -18,41 +19,121 @@ class EventsController extends Controller
         return Event::all();
     }
 
-    public function getEvent($id){
+    private function fetchEvent($id){
         $event = Event::where('id', $id)->get()->first();
         if($event != NULL){
             return $event;
         }
-        \App::abort(404);
         return NULL;
+    }
+
+    public function getEvent($id){
+        $event = $this->fetchEvent($id);
+        if($event == NULL){
+            return new CustomJsonResponse(false,"Event not found", 404);
+        }
+        return new CustomJsonResponse(true, $event, 200);
     }
 
     public function putEvent(Request $request, $id){
         $input = $request->except('_token');
-        $event = $this->getEvent($id);
-        if($event == NULL) {
-            \App::abort(404);
-            return NULL;
+        $validator = $this->getValidator($input, $id);
+        if($validator->passes()) {
+            $event = $this->fetchEvent($id);
+            if($event == NULL) {
+                return new CustomJsonResponse(false,"Event not found", 404);
+            }
+
+            if(isset($input['title']))
+                $event->title = $input['title'];
+
+            if(isset($input['description']))
+                $event->description = $input['description'];
+
+            if(isset($input['eventDate']))
+                $event->eventDate = $input['eventDate'];
+
+            if(isset($input['poster']))
+                $event->poster = $input['poster'];
+
+            if(isset($input['location']))
+                $event->location = $input['location'];
+
+            if(isset($input['external']))
+                $event->external = $input['external'];
+
+            $event->save();
+            return new CustomJsonResponse(true, $event, 200);
+        }  else {
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
 
-        $event->update($input);
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
     public function postEvent(Request $request){
-        
-        $event = new Event;
-        $event->designation = $request->designation;
-        $event->save();        
+
+        $input = $request->except('_token');
+        $validator = $this->getValidator($input, NULL);
+        if($validator->passes()) {
+            $event = new Event;
+            //Required data
+            $event->title = $request->title;
+            $event->description = $request->description;
+            $event->eventDate = $request->eventDate;
+            $event->external = $request->external;
+
+            //Optional data
+            if(isset($input['poster']))
+                $event->poster = $input['poster'];
+
+            if(isset($input['location']))
+                $event->end_date = $input['location'];
+
+            $event->save();
+            return new CustomJsonResponse(true, $event, 200);
+        } else {
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
+        }
+
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
         
     }
 
     public function deleteEvent(Request $request, $id){
-        $event = $this->getEvent($id);
+        $event = $this->fetchEvent($id);
         if($event == NULL) {
-            \App::abort(404);
-            return NULL;
+            return new CustomJsonResponse(false,"Event not found", 404);
         }
         $event->delete();
+        return new CustomJsonResponse(true, "Event successfully deleted", 200);
     }
 
+    private function getValidator($input, $id)
+    {
+        if($id == NULL) { //post (creation)
+            $validationArray = [
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'eventDate' => 'required|date',
+                'external' => 'required|boolean',
+                'poster' => 'url',
+                'location' => 'string'
+            ];
+        } else { //put (update)
+            $validationArray = [
+                'title' => 'string',
+                'description' => 'string',
+                'eventDate' => 'date',
+                'external' => 'boolean',
+                'poster' => 'url',
+                'location' => 'string'
+            ];
+        }
+
+        $validator = \Validator::make($input, $validationArray);
+        return $validator;
+    }
 }

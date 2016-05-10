@@ -18,8 +18,8 @@ class UsersController extends Controller
      * Obtem dados sobre utilizador
      */
     private function fetchUser($identification){
-        //$identification may be username, student_id or email
-        $idPossibilities = array("username", "student_id", "email");
+        //$identification may be id, username, student_id or email
+        $idPossibilities = array("id", "username", "student_id", "email");
 
         foreach($idPossibilities as $id){
             $user = User::where($id, $identification)->get()->first();
@@ -27,7 +27,6 @@ class UsersController extends Controller
                 return $user;
             }
         }
-
         return NULL;
     }
 
@@ -35,36 +34,33 @@ class UsersController extends Controller
     {   
         $user = fetchUser($identification);
 
-        if(!$user){
-            //If it reaches here, user doesn't exist
+        if($user == NULL){ //If it reaches here, user doesn't exist
             return new CustomJsonResponse(false,"User not found", 404);
         }
-
-        return NULL;
+        return new CustomJsonResponse(true, $user, 200);
     }
     /*
      * Atualiza utilizador
+     * TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)
      */
     public function putUser(Request $request, $identification)
     {
         $input = $request->except('_token');
-        // TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)
-        $user = $this->fetchUser($identification);
-        if($user == NULL) {
-            return new CustomJsonResponse(false,"User not found", 404);
-        }
-        
+
         $validator = $this->getValidator($input, $identification);
         if($validator->passes()) {
+            $user = $this->fetchUser($identification);
+            if($user == NULL) {
+                return new CustomJsonResponse(false,"User not found", 404);
+            }
             $user->update($input);
-            return $user;
+            return new CustomJsonResponse(true, $user, 200);
         } else {
-            return $validator->errors()->getMessages();
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
 
-
-        \App::abort(404);
-        return NULL;
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
     /*
@@ -77,18 +73,18 @@ class UsersController extends Controller
         if($validator->passes()) {
             $user = User::create([
                 "username" => $input['username'],
-                "password" => Hash::make($input['password']),
+                "password" => bcrypt($input['password']),
                 "student_id" => $input['student_id'],
+                "course_id" => $input['course_id'],
                 "email" => $input['email']
             ]);
-            return $user;
+            return new CustomJsonResponse(true, $user, 200);
         } else {
-            return $validator->errors()->getMessages();
+            return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
         }
-
-
-        \App::abort(404);
-        return NULL;
+        
+        //It shouldn't reach this point.
+        return new CustomJsonResponse(false,"Internal Server Error", 500); //500 is Internal Server Error.
     }
 
 
@@ -97,17 +93,14 @@ class UsersController extends Controller
         // TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)
         $user = $this->getUser($identification);
         if($user == NULL) {
-            \App::abort(404);
-            return NULL;
+            return new CustomJsonResponse(false,"User not found", 404);
         }
         $user->delete();
-        return ['message', 'success']; // TODO: change this return.
+        return new CustomJsonResponse(true, "User successfully deleted", 200);
     }
     /*
      * Valida as informações vindas do utilizador
      * DOCS: https://laravel.com/docs/5.2/validation
-     *
-     * TODO: Validator errors
      */
     private function getValidator($input, $id)
     {
@@ -115,8 +108,9 @@ class UsersController extends Controller
             $validationArray = [
                 'username' => 'required|unique:users',
                 'email' => 'required|email|unique:users',
-                'student_id' => ["required|unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
+                'student_id' => "required|digits:10|unique:users",
                 'password' => 'required|confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
+                'course_id' => 'required',
                 'name' => 'required',
                 'version_control' => 'url',
                 'avatar' => 'url'
