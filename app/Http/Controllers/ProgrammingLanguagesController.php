@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\ProgrammingLanguage;
 
-class Programming_LanguagesController extends Controller
+class ProgrammingLanguagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,9 +27,9 @@ class Programming_LanguagesController extends Controller
         return NULL;
     }
 
-    public function putprogramming_language(Request $request, $id){
+    public function putProgrammingLanguage(Request $request, $id){
         $input = $request->except('_token');
-        $programming_language = $this->getprogramming_language($id);
+        $programming_language = $this->getProgrammingLanguage($id);
         if($programming_language == NULL) {
             \App::abort(404);
             return NULL;
@@ -38,7 +38,7 @@ class Programming_LanguagesController extends Controller
         $programming_language->update($input);
     }
 
-    public function postprogramming_language(Request $request){
+    public function postProgrammingLanguage(Request $request){
         
         $programming_language = new ProgrammingLanguage;
         $programming_language->designation = $request->designation;
@@ -46,8 +46,8 @@ class Programming_LanguagesController extends Controller
         
     }
 
-    public function deleteprogramming_language(Request $request, $id){
-        $programming_language = $this->getprogramming_language($id);
+    public function deleteProgrammingLanguage(Request $request, $id){
+        $programming_language = $this->getProgrammingLanguage($id);
         if($programming_language == NULL) {
             \App::abort(404);
             return NULL;

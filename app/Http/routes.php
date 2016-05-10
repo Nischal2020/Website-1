@@ -62,11 +62,11 @@ Route::group(['prefix' => 'api/v1'], function() {
 	/*
 	 * Programming_Languages Routes
 	 */
-	Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'Programming_LanguagesController@getAll']);
-	Route::get('programming_languages/{id}', ['as' => 'get.programming_languages.single', 'uses' => 'Programming_LanguagesController@getProgramming_Language']);
-	Route::post('programming_languages', ['as' => 'post.programming_languages', 'uses' => 'Programming_LanguagesController@postProgramming_Languagee']);
-	Route::put('programming_languages/{id}', ['as' => 'put.programming_languages', 'uses' => 'Programming_LanguagesController@putProgramming_Language']);
-	Route::delete('programming_languages/{id}', ['as' => 'delete.programming_languages', 'uses' => 'Programming_LanguagesController@deleteProgramming_Language']);
+	Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'ProgrammingLanguagesController@getAll']);
+	Route::get('programming_languages/{id}', ['as' => 'get.programming_languages.single', 'uses' => 'ProgrammingLanguagesController@getProgrammingLanguage']);
+	Route::post('programming_languages', ['as' => 'post.programming_languages', 'uses' => 'ProgrammingLanguagesController@postProgrammingLanguagee']);
+	Route::put('programming_languages/{id}', ['as' => 'put.programming_languages', 'uses' => 'ProgrammingLanguagesController@putProgrammingLanguage']);
+	Route::delete('programming_languages/{id}', ['as' => 'delete.programming_languages', 'uses' => 'ProgrammingLanguagesController@deleteProgrammingLanguage']);
 });
 
 

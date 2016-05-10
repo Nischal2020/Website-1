@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Requisitions;
+use App\Requisition;
 
 class RequisitionsController extends Controller
 {
@@ -29,7 +29,7 @@ class RequisitionsController extends Controller
 
     public function putRequisition(Request $request, $id){
     	$input = $request->except('_token');
-    	$requisition = $this->getrequisition($id);
+    	$requisition = $this->getRequisition($id);
     	if($requisition == NULL) {
             \App::abort(404);
             return NULL;
@@ -47,7 +47,7 @@ class RequisitionsController extends Controller
     }
 
     public function deleteRequisition(Request $request, $id){
-        $requisition = $this->getrequisition($id);
+        $requisition = $this->getRequisition($id);
         if($requisition == NULL) {
             \App::abort(404);
             return NULL;
