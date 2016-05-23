@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProgramminglanguageProjectTable extends Migration
+class CreateProgrammingLanguageProjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class CreateProgramminglanguageProjectTable extends Migration
             $table->foreign('programming_language_id')->references('id')->on('programming_languages')->onDelete('cascade');
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            
+
         });
     }
 
@@ -31,3 +31,5 @@ class CreateProgramminglanguageProjectTable extends Migration
         Schema::drop('programming_language_project');
     }
 }
+
+
