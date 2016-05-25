@@ -32,7 +32,7 @@ class UsersController extends Controller
 
     public function getUser($identification)
     {   
-        $user = fetchUser($identification);
+        $user = $this->fetchUser($identification);
 
         if($user == NULL){ //If it reaches here, user doesn't exist
             return new CustomJsonResponse(false,"User not found", 404);
