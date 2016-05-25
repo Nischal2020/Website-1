@@ -30,8 +30,9 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::post('users', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
 	Route::put('users/{identification}', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
 	Route::delete('users/{identification}', ['as' => 'delete.users', 'uses' => 'UsersController@deleteUser']);
-
-
+	//Event_User table routes
+	Route::get('users/{identification}/events', ['as' => 'get.users.events', 'uses' => 'UsersController@getEvents']);
+	
 	/*
 	 * Roles Routes
 	 */
@@ -112,6 +113,8 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::post('projects', ['as' => 'post.projects', 'uses' => 'ProjectsController@postProject']);
 	Route::put('projects/{id}', ['as' => 'put.projects', 'uses' => 'ProjectsController@putProject']);
 	Route::delete('projects/{id}', ['as' => 'delete.projects', 'uses' => 'ProjectsController@deleteProject']);
+	//Organization_Project table routes
+	Route::get('projects/{id}/organizations', ['as' => 'get.projects.organizations', 'uses' => 'ProjectsController@getOrganizations']);
 });
 
 
