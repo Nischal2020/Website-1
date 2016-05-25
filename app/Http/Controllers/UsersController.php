@@ -71,13 +71,27 @@ class UsersController extends Controller
         $input = $request->except('_token');
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
-            $user = User::create([
+            $dataArray = array(
                 "username" => $input['username'],
                 "password" => bcrypt($input['password']),
                 "student_id" => $input['student_id'],
                 "course_id" => $input['course_id'],
                 "email" => $input['email']
-            ]);
+            );
+            if(isset($input['name']))
+                $dataArray = array_add($dataArray, 'name', $input['name']);
+
+            if(isset($input['avatar']))
+                $dataArray = array_add($dataArray, 'avatar', $input['avatar']);
+
+            if(isset($input['version_control']))
+                $dataArray = array_add($dataArray, 'version_control', $input['version_control']);
+
+            if(isset($input['about']))
+                $dataArray = array_add($dataArray, 'about', $input['about']);
+
+
+            $user = User::create($dataArray);
             return new CustomJsonResponse(true, $user, 200);
         } else {
             return new CustomJsonResponse(false, $validator->errors()->all(), 400); //400 is Bad Request
