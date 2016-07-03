@@ -16,7 +16,7 @@ class Event extends Model
     	return $this->belongsToMany('App\Guest');
     }
     
-    public function associates()
+    public function organizations()
     {
     	return $this->belongsToMany('App\Organization');
     }

@@ -36,6 +36,8 @@ class GuestsController extends Controller
         if($guest == NULL){
             return new CustomJsonResponse(false,"Guest not found", 404);
         }
+        $guest->load('events');
+        
         return new CustomJsonResponse(true, $guest, 200);
     }
 
@@ -108,6 +110,38 @@ class GuestsController extends Controller
 
         $validator = \Validator::make($input, $validationArray);
         return $validator;
+    }
+
+    public function postEvent(Request $request, $id, $event_id) {
+        $guest = $this->fetchGuest($id);
+        if($guest == NULL) {
+            return new CustomJsonResponse(false,"Guest not found", 404);
+        }
+
+        if(\Validator::make(['event_id' => $event_id], ['event_id' => 'exists:events,id'])->passes()) {
+            if(!$guest->events->contains($event_id)) { //event already exists
+                $guest->events()->attach($event_id);
+                $guest->load('events'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $guest, 200);
+        }
+        return new CustomJsonResponse(false, "Event does not exist", 404);
+    }
+
+    public function deleteEvent(Request $request, $id, $event_id) {
+        $guest = $this->fetchGuest($id);
+        if($guest == NULL) {
+            return new CustomJsonResponse(false,"Guest not found", 404);
+        }
+
+        foreach ($guest->events as $event) {
+            if($event->id == $event_id) {
+                $guest->events()->detach($event_id);
+                $guest->load('events'); //Refreshes the model
+                return new CustomJsonResponse(true, $guest, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "Guest isn't participating in this event", 404);
     }
 
 }

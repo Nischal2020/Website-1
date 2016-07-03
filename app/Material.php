@@ -11,6 +11,6 @@ class Material extends Model
      */
     public function requisition()
     {
-        return $this->belongsTo('App\Requisition');
+        return $this->belongsToMany('App\Requisition');
     }
 }

@@ -32,6 +32,8 @@ class ProjectsController extends Controller
         if($project == NULL){
             return new CustomJsonResponse(false,"Project not found", 404);
         }
+        $project->load('organizations');
+        $project->load('programmingLanguages');
         return new CustomJsonResponse(true, $project, 200);
     }
 
@@ -144,6 +146,70 @@ class ProjectsController extends Controller
 
         $validator = \Validator::make($input, $validationArray);
         return $validator;
+    }
+
+    public function postOrganization(Request $request, $id, $organization_id) {
+        $project = $this->fetchProject($id);
+        if($project == NULL){
+            return new CustomJsonResponse(false,"Project not found", 404);
+        }
+
+        if(\Validator::make(['organization_id' => $organization_id], ['organization_id' => 'exists:organizations,id'])->passes()) {
+            if(!$project->organizations->contains($organization_id)) {
+                $project->organizations()->attach($organization_id);
+                $project->load('organizations'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $project, 200);
+        }
+        return new CustomJsonResponse(false, "Organization does not exist", 404);
+    }
+
+    public function deleteOrganization(Request $request, $id, $organization_id) {
+        $project = $this->fetchProject($id);
+        if($project == NULL){
+            return new CustomJsonResponse(false,"Project not found", 404);
+        }
+
+        foreach ($project->organizations as $organization) {
+            if($organization->id == $organization_id) {
+                $project->organizations()->detach($organization_id);
+                $project->load('organizations'); //Refreshes the model
+                return new CustomJsonResponse(true, $project, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "Project isn't with this organization", 404);
+    }
+
+    public function postProgrammingLanguage(Request $request, $id, $programming_language_id) {
+        $project = $this->fetchProject($id);
+        if($project == NULL){
+            return new CustomJsonResponse(false,"Project not found", 404);
+        }
+
+        if(\Validator::make(['programming_language_id' => $programming_language_id], ['programming_language_id' => 'exists:programming_languages,id'])->passes()) {
+            if(!$project->programmingLanguages->contains($programming_language_id)) {
+                $project->programmingLanguages()->attach($programming_language_id);
+                $project->load('programmingLanguages'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $project, 200);
+        }
+        return new CustomJsonResponse(false, "Programming Language does not exist", 404);
+    }
+
+    public function deleteProgrammingLanguage(Request $request, $id, $programming_language_id) {
+        $project = $this->fetchProject($id);
+        if($project == NULL){
+            return new CustomJsonResponse(false,"Project not found", 404);
+        }
+
+        foreach ($project->programmingLanguages as $programmingLanguage) {
+            if($programmingLanguage->id == $programming_language_id) {
+                $project->programmingLanguages()->detach($programming_language_id);
+                $project->load('programmingLanguages'); //Refreshes the model
+                return new CustomJsonResponse(true, $project, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "Project doesn't use this programming language", 404);
     }
 
 }

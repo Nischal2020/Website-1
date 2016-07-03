@@ -32,11 +32,16 @@ class UsersController extends Controller
 
     public function getUser($identification)
     {   
-        $user = fetchUser($identification);
+        $user = $this->fetchUser($identification);
 
         if($user == NULL){ //If it reaches here, user doesn't exist
             return new CustomJsonResponse(false,"User not found", 404);
         }
+        $user->load('events');
+        $user->load('projects');
+        $user->load('organizations');
+        $user->load('programmingLanguages');
+
         return new CustomJsonResponse(true, $user, 200);
     }
     /*
@@ -143,5 +148,141 @@ class UsersController extends Controller
 
         $validator = \Validator::make($input, $validationArray);
         return $validator;
+    }
+
+    public function postEvent(Request $request, $identification, $event_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        if(\Validator::make(['event_id' => $event_id], ['event_id' => 'exists:events,id'])->passes()) {
+            if(!$user->events->contains($event_id)) { //event already exists
+                $user->events()->attach($event_id);
+                $user->load('events'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $user, 200);
+        }
+        return new CustomJsonResponse(false, "Event does not exist", 404);
+    }
+
+    public function deleteEvent(Request $request, $identification, $event_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        foreach ($user->events as $event) {
+            if($event->id == $event_id) {
+                $user->events()->detach($event_id);
+                $user->load('events'); //Refreshes the model
+                return new CustomJsonResponse(true, $user, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "User isn't participating in this event", 404);
+    }
+
+    public function postProject(Request $request, $identification, $project_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        if(\Validator::make(['project_id' => $project_id], ['project_id' => 'exists:projects,id'])->passes()) {
+            if(!$user->projects->contains($project_id)) { //project already exists
+                $user->projects()->attach($project_id);
+                $user->load('projects'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $user, 200);
+        }
+        return new CustomJsonResponse(false, "Project does not exist", 404);
+    }
+    
+    public function deleteProject(Request $request, $identification, $project_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        foreach ($user->projects as $project) {
+            if($project->id == $project_id) {
+                $user->projects()->detach($project_id);
+                $user->load('projects'); //Refreshes the model
+                return new CustomJsonResponse(true, $user, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "User isn't member of this project", 404);
+    }
+
+    public function postOrganization(Request $request, $identification, $organization_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        if(\Validator::make(['organization_id' => $organization_id], ['organization_id' => 'exists:organizations,id'])->passes()) {
+            if(!$user->organizations->contains($organization_id)) {
+                $user->organizations()->attach($organization_id);
+                $user->load('organizations'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $user, 200);
+        }
+        return new CustomJsonResponse(false, "Organization does not exist", 404);
+    }
+
+    public function deleteOrganization(Request $request, $identification, $organization_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        foreach ($user->organizations as $organization) {
+            if($organization->id == $organization_id) {
+                $user->organizations()->detach($organization_id);
+                $user->load('organizations'); //Refreshes the model
+                return new CustomJsonResponse(true, $user, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "User isn't member of this organization", 404);
+    }
+
+    public function postProgrammingLanguage(Request $request, $identification, $programming_language_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        if(\Validator::make(['programming_language_id' => $programming_language_id], ['programming_language_id' => 'exists:programming_languages,id'])->passes()) {
+            if(!$user->programmingLanguages->contains($programming_language_id)) {
+                $user->programmingLanguages()->attach($programming_language_id);
+                $user->load('programmingLanguages'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $user, 200);
+        }
+        return new CustomJsonResponse(false, "Programming Language does not exist", 404);
+    }
+
+    public function deleteProgrammingLanguage(Request $request, $identification, $programming_language_id) {
+        $user = $this->fetchUser($identification);
+
+        if($user == NULL){ //If it reaches here, user doesn't exist
+            return new CustomJsonResponse(false,"User not found", 404);
+        }
+
+        foreach ($user->programmingLanguages as $programmingLanguage) {
+            if($programmingLanguage->id == $programming_language_id) {
+                $user->programmingLanguages()->detach($programming_language_id);
+                $user->load('programmingLanguages'); //Refreshes the model
+                return new CustomJsonResponse(true, $user, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "User doesn't know this programming language", 404);
     }
 }

@@ -25,14 +25,23 @@ Route::group(['prefix' => 'api/v1'], function() {
 	 */
 	// URL: /users ALIAS INTERNO: 'get.users' CONTROLADOR: UsersController FUNÇÃO: getAll
 	Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
-	// URL: /users/username ALIAS INTERNO: 'get.users.single' CONTROLADOR: UsersController FUNÇÃO: getUser
 	Route::get('users/{identification}', ['as' => 'get.users.single', 'uses' => 'UsersController@getUser']);
 	Route::post('users', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
 	Route::put('users/{identification}', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
 	Route::delete('users/{identification}', ['as' => 'delete.users', 'uses' => 'UsersController@deleteUser']);
 	//Event_User table routes
-	Route::get('users/{identification}/events', ['as' => 'get.users.events', 'uses' => 'UsersController@getEvents']);
-	
+	Route::post('users/{identification}/events/{event_id}', ['as' => 'post.users.events', 'uses' => 'UsersController@postEvent']);
+	Route::delete('users/{identification}/events/{event_id}', ['as' => 'delete.users.events', 'uses' => 'UsersController@deleteEvent']);
+	//Project_User table routes
+	Route::post('users/{identification}/projects/{project_id}', ['as' => 'post.users.projects', 'uses' => 'UsersController@postProject']);
+	Route::delete('users/{identification}/projects/{project_id}', ['as' => 'delete.users.projects', 'uses' => 'UsersController@deleteProject']);
+	//Organization_User
+	Route::post('users/{identification}/organizations/{organization_id}', ['as' => 'post.users.organizations', 'uses' => 'UsersController@postOrganization']);
+	Route::delete('users/{identification}/organizations/{organization_id}', ['as' => 'delete.users.organizations', 'uses' => 'UsersController@deleteOrganization']);
+	//Programming_Language_User
+	Route::post('users/{identification}/programming_languages/{programming_language_id}', ['as' => 'post.users.programming_languages', 'uses' => 'UsersController@postProgrammingLanguage']);
+	Route::delete('users/{identification}/programming_languages/{programming_language_id}', ['as' => 'delete.users.programming_languages', 'uses' => 'UsersController@deleteProgrammingLanguage']);
+
 	/*
 	 * Roles Routes
 	 */
@@ -59,6 +68,8 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::post('requisitions', ['as' => 'post.requisitions', 'uses' => 'RequisitionsController@postRequisition']);
 	Route::put('requisitions/{id}', ['as' => 'put.requisitions', 'uses' => 'RequisitionsController@putRequisition']);
 	Route::delete('requisitions/{id}', ['as' => 'delete.requisitions', 'uses' => 'RequisitionsController@deleteRequisition']);
+	//requisitions_materials table
+	Route::post('requisitions/{id}/materials', ['as' => 'post.requisitions.materials', 'uses' => 'RequisitionsController@postMaterials']);
 
 	/*
 	 * Programming_Languages Routes
@@ -95,6 +106,9 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::post('events', ['as' => 'post.events', 'uses' => 'EventsController@postEvent']);
 	Route::put('events/{id}', ['as' => 'put.events', 'uses' => 'EventsController@putEvent']);
 	Route::delete('events/{id}', ['as' => 'delete.events', 'uses' => 'EventsController@deleteEvent']);
+	//Event_Organization table routes
+	Route::post('events/{id}/organizations/{organization_id}', ['as' => 'post.events.organizations', 'uses' => 'EventsController@postOrganization']);
+	Route::delete('events/{id}/organizations/{organization_id}', ['as' => 'delete.events.organizations', 'uses' => 'EventsController@deleteOrganization']);
 
 	/*
 	 * Guests Routes
@@ -104,6 +118,9 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::post('guests', ['as' => 'post.guests', 'uses' => 'GuestsController@postGuest']);
 	Route::put('guests/{id}', ['as' => 'put.guests', 'uses' => 'GuestsController@putGuest']);
 	Route::delete('guests/{id}', ['as' => 'delete.guests', 'uses' => 'GuestsController@deleteGuest']);
+	//Event_Guest table routes
+	Route::post('guests/{id}/events/{event_id}', ['as' => 'post.guests.events', 'uses' => 'GuestsController@postEvent']);
+	Route::delete('guests/{id}/events/{event_id}', ['as' => 'delete.guests.events', 'uses' => 'GuestsController@deleteEvent']);
 
 	/*
 	 * Projects Routes
@@ -114,7 +131,12 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::put('projects/{id}', ['as' => 'put.projects', 'uses' => 'ProjectsController@putProject']);
 	Route::delete('projects/{id}', ['as' => 'delete.projects', 'uses' => 'ProjectsController@deleteProject']);
 	//Organization_Project table routes
-	Route::get('projects/{id}/organizations', ['as' => 'get.projects.organizations', 'uses' => 'ProjectsController@getOrganizations']);
+	Route::post('projects/{id}/organizations/{organization_id}', ['as' => 'post.projects.organizations', 'uses' => 'ProjectsController@postOrganization']);
+	Route::delete('projects/{id}/organizations/{organization_id}', ['as' => 'delete.projects.organizations', 'uses' => 'ProjectsController@deleteOrganization']);
+	//Programming_Language_Project table routs
+	Route::post('projects/{id}/programming_languages/{programming_language_id}', ['as' => 'post.projects.programming_languages', 'uses' => 'ProjectsController@postProgrammingLanguage']);
+	Route::delete('projects/{id}/programming_languages/{programming_language_id}', ['as' => 'delete.projects.programming_languages', 'uses' => 'ProjectsController@deleteProgrammingLanguage']);
+
 });
 
 

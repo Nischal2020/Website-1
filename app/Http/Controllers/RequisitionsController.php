@@ -32,6 +32,7 @@ class RequisitionsController extends Controller
         if($requisition == NULL)
             return new CustomJsonResponse(false,"Requisition not found", 404);
 
+        $requisition->load('materials');
         return new CustomJsonResponse(true, $requisition, 200);
     }
 
@@ -100,6 +101,36 @@ class RequisitionsController extends Controller
 
         $validator = \Validator::make($input, $validationArray);
         return $validator;
+    }
+
+    public function postMaterials(Request $request, $id) {
+        $requisition = $this->fetchRequisition($id);
+        if($requisition == NULL) {
+            return new CustomJsonResponse(false,"Requisition not found", 404);
+        }
+
+
+        if(!empty($request->input('material_ids'))) { //An empty array is falsey in PHP
+            $materialIds = array($request->input('material_ids'));
+            $addedMaterials = false;
+
+            foreach ($materialIds as $materialId) {
+                if(\Validator::make(['material_id' => $materialId], ['material_id' => 'exists:materials,id'])->passes()) {
+                    if (!$requisition->materials->contains($materialId)) {
+                        $requisition->materials()->attach($materialId);
+                        $addedMaterials = true;
+                    }
+                }
+            }
+
+            if($addedMaterials == true) {
+                $requisition->load('materials');
+                return new CustomJsonResponse(true, $requisition, 200);
+            }
+        } else {
+            return new CustomJsonResponse(false,"Please provide an array of material ids", 404);
+        }
+        return new CustomJsonResponse(false,"Failed to add materials to requisition. Check their ids", 404);
     }
 
 }

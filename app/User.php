@@ -41,17 +41,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Project');
     }
 
-    /*public function events()
-    {
-        return $this->belongsToMany('App\Event');
-    }*/
-
-    public function participates()
+    public function events()
     {
         return $this->belongsToMany('App\Event');
     }
 
-    public function knowledges()
+    public function programmingLanguages()
     {
         return $this->belongsToMany('App\ProgrammingLanguage');
     }
@@ -60,11 +55,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Role');
     }
-    public function envolved()
+    public function projects()
     {
         return $this->belongsToMany('App\Project');
     }
-    public function belongs()
+    public function organizations()
     {
         return $this->belongsToMany('App\Organization');
     }

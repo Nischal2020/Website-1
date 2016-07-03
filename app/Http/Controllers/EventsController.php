@@ -32,6 +32,7 @@ class EventsController extends Controller
         if($event == NULL){
             return new CustomJsonResponse(false,"Event not found", 404);
         }
+        $event->load('organizations');
         return new CustomJsonResponse(true, $event, 200);
     }
 
@@ -135,5 +136,37 @@ class EventsController extends Controller
 
         $validator = \Validator::make($input, $validationArray);
         return $validator;
+    }
+
+    public function postOrganization(Request $request, $id, $organization_id) {
+        $event = $this->fetchEvent($id);
+        if($event == NULL) {
+            return new CustomJsonResponse(false,"Event not found", 404);
+        }
+
+        if(\Validator::make(['organization_id' => $organization_id], ['organization_id' => 'exists:organizations,id'])->passes()) {
+            if(!$event->organizations->contains($organization_id)) {
+                $event->organizations()->attach($organization_id);
+                $event->load('organizations'); //Refreshes the model
+            }
+            return new CustomJsonResponse(true, $event, 200);
+        }
+        return new CustomJsonResponse(false, "Organization does not exist", 404);
+    }
+
+    public function deleteOrganization(Request $request, $id, $organization_id) {
+        $event = $this->fetchEvent($id);
+        if($event == NULL) {
+            return new CustomJsonResponse(false,"Event not found", 404);
+        }
+
+        foreach ($event->organizations as $organization) {
+            if($organization->id == $organization_id) {
+                $event->organizations()->detach($organization_id);
+                $event->load('organizations'); //Refreshes the model
+                return new CustomJsonResponse(true, $event, 200);
+            }
+        }
+        return new CustomJsonResponse(false, "Event isn't associated to this organization", 404);
     }
 }

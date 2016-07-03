@@ -19,6 +19,6 @@ class Requisition extends Model
      */
     public function materials()
     {
-        return $this->hasMany('App\Material');
+        return $this->belongsToMany('App\Material');
     }
 }
