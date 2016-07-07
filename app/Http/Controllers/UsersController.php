@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 // TODO: need to change all the redirects, they need to be done client-side.
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User;
@@ -50,7 +51,7 @@ class UsersController extends Controller
      */
     public function putUser(Request $request, $identification)
     {
-        $input = $request->except('_token');
+        $input = $request->all();
 
         $validator = $this->getValidator($input, $identification);
         if($validator->passes()) {
@@ -132,7 +133,8 @@ class UsersController extends Controller
                 'course_id' => 'required|exists:courses,id',
                 'name' => 'required',
                 'version_control' => 'url',
-                'avatar' => 'url'
+                'avatar' => 'url',
+                'role_id' => 'exists:roles,id',
             ];
         } else { //put (update)
             $validationArray = [
@@ -142,7 +144,8 @@ class UsersController extends Controller
                 'password' => 'confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
 		        'course_id' => 'exists:courses,id',
                 'version_control' => 'url',
-                'avatar' => 'url'
+                'avatar' => 'url',
+                'role_id' => 'exists:roles,id',
             ];
         }
 

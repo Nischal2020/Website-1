@@ -15,10 +15,14 @@ class RolesController extends Controller
         return Role::all();
     }
 
-    private function fetchRole($id){
-        $role = Role::where('id', $id)->get()->first();
-        if($role != NULL){
-            return $role;
+    public function fetchRole($identification){
+        $idPossibilities = array("id", "designation");
+
+        foreach($idPossibilities as $id){
+            $role = Role::where($id, $identification)->get()->first();
+            if($role != NULL){
+                return $role;
+            }
         }
         return NULL;
     }

@@ -32,6 +32,14 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::get('courses', ['as' => 'get.courses', 'uses' => 'CoursesController@getAll']);
 
     Route::group(['middleware' => 'jwt.auth'], function () {
+
+        /*
+         * Routes para os users com role 'admin'
+         */
+        Route::group(['middleware' => 'role:admin'], function () {
+
+        });
+
         /*
          * Routes para os Users.
          */
