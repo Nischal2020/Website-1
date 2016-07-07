@@ -28,15 +28,17 @@ Route::group(['prefix' => 'api/v1'], function() {
     // Autenticação de tokens
     Route::post('authenticate', 'ApiAuthenticateController@authenticate');
 
+    Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
     Route::post('users', ['as' => 'post.users', 'uses' => 'UsersController@postUser']);
     Route::get('courses', ['as' => 'get.courses', 'uses' => 'CoursesController@getAll']);
+    Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'ProgrammingLanguagesController@getAll']);
 
     Route::group(['middleware' => 'jwt.auth'], function () {
         /*
          * Routes para os Users.
          */
         // URL: /users ALIAS INTERNO: 'get.users' CONTROLADOR: UsersController FUNÇÃO: getAll
-        Route::get('users', ['as' => 'get.users', 'uses' => 'UsersController@getAll']);
+
         Route::get('users/{identification}', ['as' => 'get.users.single', 'uses' => 'UsersController@getUser']);
         Route::put('users/{identification}', ['as' => 'put.users', 'uses' => 'UsersController@putUser']);
         Route::delete('users/{identification}', ['as' => 'delete.users', 'uses' => 'UsersController@deleteUser']);
@@ -56,7 +58,6 @@ Route::group(['prefix' => 'api/v1'], function() {
         /*
          * Roles Routes
          */
-        Route::get('roles', ['as' => 'get.roles', 'uses' => 'RolesController@getAll']);
         Route::get('roles/{id}', ['as' => 'get.roles.single', 'uses' => 'RolesController@getRole']);
         Route::post('roles', ['as' => 'post.roles', 'uses' => 'RolesController@postRole']);
         Route::put('roles/{id}', ['as' => 'put.roles', 'uses' => 'RolesController@putRole']);
@@ -84,7 +85,6 @@ Route::group(['prefix' => 'api/v1'], function() {
         /*
          * Programming_Languages Routes
          */
-        Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'ProgrammingLanguagesController@getAll']);
         Route::get('programming_languages/{id}', ['as' => 'get.programming_languages.single', 'uses' => 'ProgrammingLanguagesController@getProgrammingLanguage']);
         Route::post('programming_languages', ['as' => 'post.programming_languages', 'uses' => 'ProgrammingLanguagesController@postProgrammingLanguage']);
         Route::put('programming_languages/{id}', ['as' => 'put.programming_languages', 'uses' => 'ProgrammingLanguagesController@putProgrammingLanguage']);

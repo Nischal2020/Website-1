@@ -130,6 +130,7 @@ class UsersController extends Controller
                 'student_id' => "required|digits:10|unique:users",
                 'password' => 'required|confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
                 'course_id' => 'required|exists:courses,id',
+                'role_id' => 'exists:roles,id',
                 'name' => 'required',
                 'version_control' => 'url',
                 'avatar' => 'url'
@@ -141,6 +142,7 @@ class UsersController extends Controller
                 'student_id' => ["unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
                 'password' => 'confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
 		        'course_id' => 'exists:courses,id',
+                'role_id' => 'exists:roles,id',
                 'version_control' => 'url',
                 'avatar' => 'url'
             ];

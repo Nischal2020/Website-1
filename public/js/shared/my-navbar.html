@@ -1,0 +1,71 @@
+<!-- NABVAR -->
+<nav class="navbar navbar-inverse navbar-custom">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#CPnavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <!--<a class="navbar-brand" href="#">WebSiteName</a>-->
+      <div>
+            <img class = "logonav" src="imgs/logo.png" >
+       </div>
+    </div>
+    <div class="collapse navbar-collapse" id="CPnavbar">
+      <ul class="nav navbar-nav navbar-left">
+        <li ng-class ="{ active: navbarCtrl.isActive(0) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(0)">Projectos</a>
+        </li>
+        <li ng-class ="{ active: navbarCtrl.isActive(1) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(1)" >Membros</a>
+        </li>
+        <li ng-class ="{ active: navbarCtrl.isActive(2) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(2)">Eventos</a>
+        </li>
+        <li ng-class ="{ active: navbarCtrl.isActive(3) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(3)">Blog</a>
+        </li>
+        <li ng-class ="{ active: navbarCtrl.isActive(4) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(4)">Organizações</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right" ng-class = "{ notLogged: !isLogged() } " ng-hide = "navbarCtrl.isLogged()">
+        <li ng-class ="{ active: navbarCtrl.isActive(5) }">
+          <a href="#" ng-click = "navbarCtrl.setActive(5)"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+        </li>
+        <li id = "loginButton" ng-class ="{ active: navbarCtrl.isActive(6)}">
+          <a href="#"  ng-click = "navbarCtrl.setActive(6); navbarCtrl.setLogged() "><span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
+	    </ul>   
+
+      <ul class="nav navbar-nav navbar-right" ng-class = "{ logged : navbarCtrl.isLogged()}" ng-show = "navbarCtrl.isLogged()">
+
+	      <li class = "userSpace">
+          <img class = "usernav pull-left" style="position: relative; z-index: 2;" src="imgs/user_icon.png" >
+        </li>
+
+        <li class = "dropdown pull-right">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Ricardo Mendes 
+            <i class="fa fa-chevron-down" style="margin-left: 0.5em;"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#">Perfil</a>
+            </li>
+            <li>
+              <a href="#">Logout
+                <i class="fa  fa-arrow-circle-right pull-right"></i>
+                <div class = "clearfix"></div>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <div class = "clearfix"></div>
+	    </ul>   
+	  </div>
+  </div>
+</nav>
