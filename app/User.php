@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\RolesController;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -51,14 +52,24 @@ class User extends Authenticatable
         return $this->belongsToMany('App\ProgrammingLanguage');
     }
     
-    public function has()
+    public function role()
     {
         return $this->belongsTo('App\Role');
     }
+
+    public function hasRole($roleDesignation){
+        $role = (new RolesController())->fetchRole($roleDesignation);
+
+        $userRole = (new RolesController())->fetchRole($this->role_id);
+
+        return !empty($role) && !empty($userRole) && $role->id == $userRole->id;
+    }
+
     public function projects()
     {
         return $this->belongsToMany('App\Project');
     }
+
     public function organizations()
     {
         return $this->belongsToMany('App\Organization');

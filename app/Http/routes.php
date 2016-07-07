@@ -34,6 +34,14 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::get('programming_languages', ['as' => 'get.programming_languages', 'uses' => 'ProgrammingLanguagesController@getAll']);
 
     Route::group(['middleware' => 'jwt.auth'], function () {
+
+        /*
+         * Routes para os users com role 'admin'
+         */
+        Route::group(['middleware' => 'role:admin'], function () {
+
+        });
+
         /*
          * Routes para os Users.
          */
