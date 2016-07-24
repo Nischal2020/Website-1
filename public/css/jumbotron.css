@@ -1,0 +1,17 @@
+.jumbotron-image{
+	background: url('http://cdn.wonderfulengineering.com/wp-content/uploads/2016/01/nature-wallpapers-2.jpeg') no-repeat center center;
+	padding-right: 25px;
+	padding-left: 25px;
+}
+
+.jumbotron-image > h1{
+	color: rgba(255,255,255,0.6);
+}
+
+.jumbotron-image > p{
+	color: rgba(255,255,255,0.8);
+}
+
+.section-clear{
+	padding: 0px;
+}
