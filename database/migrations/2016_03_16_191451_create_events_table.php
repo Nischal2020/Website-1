@@ -20,6 +20,7 @@ class CreateEventsTable extends Migration
             $table->string('poster')->nullable();
             $table->string('location')->nullable();
             $table->boolean('external'); //If it's not an intra-department event
+            $table->double('price', 8, 2); // 8 digits, 2 decimal places
             $table->timestamps();
         });
     }
