@@ -6786,4 +6786,18 @@ body {
     min-height: 300px;
 }
 
+.carousel-control .control-left,
+.carousel-control .control-right {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: inline-block;
+}
+.carousel-control .control-left {
+  left: 50%;
+}
+.carousel-control .control-right {
+  right: 50%;
+}
+
 /* PINGENDO COMMENT DO NOT REMOVE */
