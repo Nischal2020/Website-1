@@ -37,7 +37,7 @@ class RequisitionsController extends Controller
     }
 
     public function putRequisition(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $requisition = $this->fetchRequisition($id);
@@ -62,7 +62,7 @@ class RequisitionsController extends Controller
     }
 
     public function postRequisition(Request $request){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $requisition = new Requisition;

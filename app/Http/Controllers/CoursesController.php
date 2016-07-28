@@ -42,7 +42,7 @@ class CoursesController extends Controller
     }
 
     public function putCourse(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $course = $this->fetchCourse($id);
@@ -68,7 +68,7 @@ class CoursesController extends Controller
 
     public function postCourse(Request $request){
 
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $course = new Course;

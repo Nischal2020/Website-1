@@ -38,7 +38,7 @@ class ProjectsController extends Controller
     }
 
     public function putProject(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $project = $this->fetchProject($id);
@@ -78,7 +78,7 @@ class ProjectsController extends Controller
     }
 
     public function postProject(Request $request){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $project = new Project;

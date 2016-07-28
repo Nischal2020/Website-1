@@ -37,7 +37,7 @@ class EventsController extends Controller
     }
 
     public function putEvent(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $event = $this->fetchEvent($id);
@@ -75,7 +75,7 @@ class EventsController extends Controller
 
     public function postEvent(Request $request){
 
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $event = new Event;

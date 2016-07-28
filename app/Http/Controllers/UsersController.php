@@ -74,16 +74,20 @@ class UsersController extends Controller
      */
     public function postUser(Request $request)
     {
-        $input = $request->except('_token');
+        $input = $request->all();
+
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $dataArray = array(
                 "username" => $input['username'],
                 "password" => bcrypt($input['password']),
                 "student_id" => $input['student_id'],
-                "course_id" => $input['course_id'],
                 "email" => $input['email']
             );
+
+            if(isset($input['course_id']))
+                $dataArray = array_add($dataArray, 'course_id', $input['course_id']);
+
             if(isset($input['name']))
                 $dataArray = array_add($dataArray, 'name', $input['name']);
 
@@ -130,7 +134,7 @@ class UsersController extends Controller
                 'email' => 'required|email|unique:users',
                 'student_id' => "required|digits:10|unique:users",
                 'password' => 'required|confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
-                'course_id' => 'required|exists:courses,id',
+                'course_id' => 'exists:courses,id',
                 'role_id' => 'exists:roles,id',
                 'name' => 'required',
                 'version_control' => 'url',
@@ -141,7 +145,7 @@ class UsersController extends Controller
             $validationArray = [
                 'username' => 'unique:users',
                 'email' => 'email|unique:users',
-                'student_id' => ["unique:users", "Regex:/^([0-9]{10})$/"], // obriga a que todos os números sejam uc201xxxxxxx ou a201xxxxxxx
+                'student_id' => ["unique:users", "digits:10"], 
                 'password' => 'confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
 		        'course_id' => 'exists:courses,id',
                 'role_id' => 'exists:roles,id',

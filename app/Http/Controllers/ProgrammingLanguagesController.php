@@ -36,7 +36,7 @@ class ProgrammingLanguagesController extends Controller
     }
 
     public function putProgrammingLanguage(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $programmingLanguage = $this->fetchProgrammingLanguage($id);
@@ -61,7 +61,7 @@ class ProgrammingLanguagesController extends Controller
     }
 
     public function postProgrammingLanguage(Request $request){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $programmingLanguage = new ProgrammingLanguage;

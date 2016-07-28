@@ -16,7 +16,7 @@ class AddForeignKeyToUsersTable extends Migration
         //Como tal, a chave estrangeira course_id só pode ser adicionada depois da criação da tabela courses
         Schema::table('users', function (Blueprint $table) {
             //course_id foreign key for the relation "studies"
-            $table->integer('course_id')->unsigned();
+            $table->integer('course_id')->unsigned()->nullable();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade'); 
             //role_id foreign key for the relation "has"
             $table->integer('role_id')->unsigned()->nullable();

@@ -37,7 +37,7 @@ class RolesController extends Controller
     }
 
     public function putRole(Request $request, $id){
-    	$input = $request->except('_token');
+    	$input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $role = $this->fetchRole($id);
@@ -59,7 +59,7 @@ class RolesController extends Controller
     }
 
     public function postRole(Request $request){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $role = new Role;

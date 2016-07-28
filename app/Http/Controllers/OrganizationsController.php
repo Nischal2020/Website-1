@@ -36,7 +36,7 @@ class OrganizationsController extends Controller
     }
 
     public function putOrganization(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $organization = $this->fetchOrganization($id);
@@ -67,7 +67,7 @@ class OrganizationsController extends Controller
     }
 
     public function postOrganization(Request $request){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $organization = new Organization();
