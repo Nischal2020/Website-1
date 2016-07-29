@@ -7,15 +7,16 @@
                 templateUrl: 'app/components/home/homeView.html'
             })
             .when('/projects', {
-                templateUrl: 'app/components/projects/projectsView.html'
+                templateUrl: 'app/components/projects/projectsView.html',
+                controller: 'projectsController'
             })
             .when('/blog', {
                 templateUrl: 'app/components/blog/blogView.html'
                 //controller: 'BlogController'
             })
             .when('/events', {
-                templateUrl: 'app/components/events/eventsView.html'
-                //controller: 'BlogController'
+                templateUrl: 'app/components/events/eventsView.html',
+                controller: 'eventsController'
             })
             .when('/members', {
                 templateUrl: 'app/components/members/membersView.html'

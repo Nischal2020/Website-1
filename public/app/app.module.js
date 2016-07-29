@@ -1,5 +1,12 @@
 (function() {
-    var app = angular.module('cpApp', ['cpAppRoutes']);
+    //Declares the directive module
+    angular.module('directives', []);
+
+    //Declares the components module
+    angular.module('components', []);
+
+    //Creates our main module - app modelu
+    var app = angular.module('cpApp', ['cpAppRoutes', 'directives', 'components']);
 
     // Controller that's applied to the body tag
     app.controller('mainController', [ '$scope', '$location', function ($scope,$location) {
