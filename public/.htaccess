@@ -19,3 +19,6 @@
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # Redirect index.php resquests to /
+    RewriteCond %{THE_REQUEST} ^.*/index\.php
+    RewriteRule ^index.php(.*)$ /$1 [R=301,L]
