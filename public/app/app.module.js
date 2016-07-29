@@ -3,6 +3,8 @@
 
     // Controller that's applied to the body tag
     app.controller('mainController', [ '$scope', '$location', function ($scope,$location) {
+        // Start hidden
+        $scope.showHomeImage = false;
 
         //Show/hide main image based on the location
         $scope.$on('$locationChangeStart', function(event) {

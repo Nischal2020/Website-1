@@ -22,7 +22,7 @@
     <script type="text/javascript" src="app/app.module.js"></script>
     <script type="text/javascript" src="app/app.routes.js"></script>
 </head>
-<body>
+<body ng-controller="mainController">
 
 <!--navbar-->
 <div class="navbar navbar-inverse navbar-static-top">
@@ -65,7 +65,7 @@
 </div>
 
 <!--content-->
-<div class="cover" ng-show="showHomeImage" ng-controller="mainController">
+<div class="cover" ng-show="showHomeImage">
     <div class="cover-image"
          style="background-image: url(https://unsplash.imgix.net/photo-1418065460487-3e41a6c84dc5?q=25&amp;fm=jpg&amp;s=127f3a3ccf4356b7f79594e05f6c840e);"></div>
     <div class="container">

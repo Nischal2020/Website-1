@@ -6773,4 +6773,21 @@ body {
   right: 50%;
 }
 
+.jumbotron-image{
+  background: url('https://images6.alphacoders.com/456/456498.jpg') no-repeat center center;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.jumbotron-image > h1{
+  color: rgba(0,0,0,0.6);
+}
+
+.jumbotron-image > p{
+  color: rgba(0,0,0,0.9);
+}
+
+.section-clear{
+  padding: 0px;
+}
 /* PINGENDO COMMENT DO NOT REMOVE */
