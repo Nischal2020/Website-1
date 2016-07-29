@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img ng-src="{{member.thumb}}" class="img-responsive img-thumbnail">
+            </div>
+            <div class="col-md-8">
+                <br class="hidden-md hidden-lg">
+                <div>
+                    <p>Name:
+                        <b>{{member.name}}</b>
+                    </p>
+                    <p>Student ID:
+                        <b>{{member.student_id}}</b>
+                    </p>
+                    <p>About:
+                        <b>{{member.about | limitTo:55}}{{member.about.length > 55 ? '...' : ''}}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <a href="{{member.version_control}}"><i class="fa fa-3x fa-fw fa-github text-muted"></i></a>
+            <a href="#"><i class="fa fa-3x fa-fw fa-linkedin text-muted"></i></a>
+            <a ng-href="mailto:{{member.email}}"><i class="fa fa-3x fa-envelope-o fa-fw text-muted"></i></a>
+            <a class="btn btn-default pull-right">More</a>
+        </div>
+    </div>
+</div>

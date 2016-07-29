@@ -19,8 +19,8 @@
                 controller: 'eventsController'
             })
             .when('/members', {
-                templateUrl: 'app/components/members/membersView.html'
-                //controller: 'BlogController'
+                templateUrl: 'app/components/members/membersView.html',
+                controller: 'membersController'
             })
             .when('/organisations', {
                 templateUrl: 'app/components/organisations/organisationsView.html'
