@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
-            $table->dateTime('eventDate');
+            $table->dateTime('event_date');
             $table->string('poster')->nullable();
             $table->string('location')->nullable();
             $table->boolean('external'); //If it's not an intra-department event
