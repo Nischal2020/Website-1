@@ -47,11 +47,10 @@ class UsersController extends Controller
     }
     /*
      * Atualiza utilizador
-     * TODO: Falta verificar as permissoes do user para editar este objeto (se admin ou utilizador)
      */
     public function putUser(Request $request, $identification)
     {
-        $input = $request->all();
+        $input = $request->except('role_id'); //role_id has to be added by the server admin manually
 
         $validator = $this->getValidator($input, $identification);
         if($validator->passes()) {
@@ -144,11 +143,9 @@ class UsersController extends Controller
                 'student_id' => "required|digits:10|unique:users",
                 'password' => 'required|confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
                 'course_id' => 'exists:courses,id',
-                'role_id' => 'exists:roles,id',
                 'name' => 'required',
                 'version_control' => 'url',
                 'avatar' => 'url',
-                'role_id' => 'exists:roles,id',
             ];
         } else { //put (update)
             $validationArray = [
@@ -157,10 +154,8 @@ class UsersController extends Controller
                 'student_id' => ["unique:users", "digits:10"],
                 'password' => 'confirmed', // o "confirmed" necessita de um text input com o nome de password_confirmation, para verificar se a password é igual nos dois sítios.
 		        'course_id' => 'exists:courses,id',
-                'role_id' => 'exists:roles,id',
                 'version_control' => 'url',
                 'avatar' => 'url',
-                'role_id' => 'exists:roles,id',
             ];
         }
 
