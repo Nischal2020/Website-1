@@ -38,12 +38,20 @@ class ProjectsController extends Controller
     }
 
     public function putProject(Request $request, $id){
+
         $input = $request->all();
+
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $project = $this->fetchProject($id);
             if($project == NULL) {
                 return new CustomJsonResponse(false,"Project not found", 404);
+            }
+
+            if($request->user()->role_id == null && $request->user()->id != $project->coordenator_id) {
+                //User is not admin nor coordinator of this project
+                return $request->user()->id;
+                return new CustomJsonResponse(false, "Permission denied", 403);
             }
 
             if(isset($input['name']))
@@ -86,6 +94,7 @@ class ProjectsController extends Controller
             $project->name = $request->name;
             $project->start_date = $request->start_date;
             $project->version_control = $request->version_control;
+            $project->coordenator_id = $request->user()->id;
             
             //Optional data
             if(isset($input['description']))

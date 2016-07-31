@@ -42,6 +42,20 @@ class AddInitialConfig extends Migration
                 'updated_at' => DB::raw('now()'),
             )
         );
+
+        DB::table('users')->insert(
+            array(
+                'student_id' => 2012136620,
+                'username' => 'francisco',
+                'name' => 'Francisco Couceiro',
+                'email' => 'couceiro.f@gmail.com',
+                'password' => Hash::make('password'),
+                'course_id' => 1,
+                'role_id' => 1,
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
+            )
+        );
     }
 
     public function down()
