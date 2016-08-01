@@ -18,5 +18,9 @@
             $scope.showHomeImage = $location.path() === '/';
         });
 
+        //Activate/Deactivate navbar based on route
+        $scope.isTabActive = function (path) {
+            return $location.path() === path;
+        };
     }]);
 })();

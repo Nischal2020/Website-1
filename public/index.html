@@ -50,19 +50,19 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-ex-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li ng-class="{active:isTabActive('/projects')}">
                     <a href="#/projects">Projects</a>
                 </li>
-                <li class="">
+                <li ng-class="{active:isTabActive('/members')}">
                     <a href="#/members">Members</a>
                 </li>
-                <li>
+                <li ng-class="{active:isTabActive('/events')}">
                     <a href="#/events">Events</a>
                 </li>
-                <li>
+                <li ng-class="{active:isTabActive('/blog')}">
                     <a href="#/blog">Blog<br></a>
                 </li>
-                <li>
+                <li ng-class="{active:isTabActive('/organisations')}">
                     <a href="#/organisations">Organisations<br></a>
                 </li>
             </ul>
