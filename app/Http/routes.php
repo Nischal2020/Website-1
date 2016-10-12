@@ -12,9 +12,7 @@
 */
 
 Route::get('/', function () {
-    //$projects = \App\Project::all();
-    return view('welcome');
-    //->with('projects', $projects);
+    return view('home');
 });
 
 //API routes
@@ -169,8 +167,3 @@ Route::group(['prefix' => 'api/v1'], function() {
 */
 
 
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});
