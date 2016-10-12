@@ -1,0 +1,27 @@
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-class="{active:$index===0}" ng-repeat="event in data track by $index"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item" ng-class="{next:(data.length>1&&$index===0), left:($index===(data.length-1)||$index===0), active:$index===(data.length-1)}" ng-repeat="event in data track by $index">
+            <img
+                 ng-src="{{event.thumb}}"
+                 alt="First slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>{{event.title}}</h1>
+                    <p>{{event.subtitle}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" data-target="#myCarousel" role="button" data-slide="prev">
+        <span class="control-left fa fa-arrow-left fa-lg"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" data-target="#myCarousel" role="button" data-slide="next">
+        <span class="control-right fa fa-arrow-right fa-lg"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
