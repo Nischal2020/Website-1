@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img ng-src="{{project.thumb}}" class="img-responsive img-thumbnail">
+            </div>
+            <div class="col-md-8">
+                <br class="hidden-md hidden-lg">
+                <div>
+                    <a href="{{project.logo}}"> </a><!-- acrescentar imagem <i> aqui dp-->
+                    <b>{{project.name}}</b>
+                    <b>{{project.description | limitTo:256}}{{project.description.length > 256 ? '...' : ''}}</b>
+                    <p>Start Date:
+                        <b>{{project.start_date}}</b>
+                    </p>
+                    <p>End Date:
+                        <b class="pull-right">{{project.end_date}}</b> <!--Definir no bootstrap p/ este item ir para o lado esquerdo do ecra-->
+                    </p>
+                    <p>Coordinator ID:
+                        <b>{{project.coordenator_id}}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <a href="{{project.version_control}}"><i class="fa fa-3x fa-fw fa-github text-muted"></i></a>
+            <a href="#"><i class="fa fa-3x fa-fw fa-slack text-muted"></i></a>
+            <a class="btn btn-default pull-right">More</a>
+        </div>
+    </div>
+</div>
