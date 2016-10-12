@@ -37,7 +37,7 @@ class EventsController extends Controller
     }
 
     public function putEvent(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $event = $this->fetchEvent($id);
@@ -51,8 +51,8 @@ class EventsController extends Controller
             if(isset($input['description']))
                 $event->description = $input['description'];
 
-            if(isset($input['eventDate']))
-                $event->eventDate = $input['eventDate'];
+            if(isset($input['event_date']))
+                $event->event_date = $input['event_date'];
 
             if(isset($input['poster']))
                 $event->poster = $input['poster'];
@@ -75,14 +75,14 @@ class EventsController extends Controller
 
     public function postEvent(Request $request){
 
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $event = new Event;
             //Required data
             $event->title = $request->title;
             $event->description = $request->description;
-            $event->eventDate = $request->eventDate;
+            $event->event_date = $request->event_date;
             $event->external = $request->external;
 
             //Optional data
@@ -118,7 +118,7 @@ class EventsController extends Controller
             $validationArray = [
                 'title' => 'required|string',
                 'description' => 'required|string',
-                'eventDate' => 'required|date',
+                'event_date' => 'required|date',
                 'external' => 'required|boolean',
                 'poster' => 'url',
                 'location' => 'string'
@@ -127,7 +127,7 @@ class EventsController extends Controller
             $validationArray = [
                 'title' => 'string',
                 'description' => 'string',
-                'eventDate' => 'date',
+                'event_date' => 'date',
                 'external' => 'boolean',
                 'poster' => 'url',
                 'location' => 'string'

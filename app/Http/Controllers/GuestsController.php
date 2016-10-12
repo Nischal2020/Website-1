@@ -42,7 +42,7 @@ class GuestsController extends Controller
     }
 
     public function putGuest(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $guest = $this->fetchGuest($id);
@@ -68,7 +68,7 @@ class GuestsController extends Controller
 
     public function postGuest(Request $request){
 
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $guest = new Guest;

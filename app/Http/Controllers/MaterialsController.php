@@ -36,7 +36,7 @@ class MaterialsController extends Controller
     }
 
     public function putMaterial(Request $request, $id){
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, $id);
         if($validator->passes()) {
             $material = $this->fetchMaterial($id);
@@ -59,7 +59,7 @@ class MaterialsController extends Controller
 
     public function postMaterial(Request $request){
 
-        $input = $request->except('_token');
+        $input = $request->all();
         $validator = $this->getValidator($input, NULL);
         if($validator->passes()) {
             $material = new Material();
