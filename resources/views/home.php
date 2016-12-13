@@ -19,6 +19,7 @@
     <!--angular setup-->
     <script type="text/javascript" src="assets/libs/angular.min.js"></script>
     <script type="text/javascript" src="assets/libs/angular-route.min.js"></script>
+    <script type="text/javascript" src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
     <script type="text/javascript" src="app/app.module.js"></script>
     <script type="text/javascript" src="app/shared/table/tableDirective.js"></script>
     <script type="text/javascript" src="app/shared/carousel/carouselDirective.js"></script>
@@ -26,6 +27,8 @@
     <script type="text/javascript" src="app/components/events/eventsController.js"></script>
     <script type="text/javascript" src="app/components/members/membersController.js"></script>
     <script type="text/javascript" src="app/components/members/memberCard/memberCardDirective.js"></script>
+    <script type="text/javascript" src="app/components/organisations/organisationsController.js"></script>
+    <script type="text/javascript" src="app/components/organisations/organisationCard/organisationCardDirective.js"></script>
     <script type="text/javascript" src="app/app.routes.js"></script>
 </head>
 <body ng-controller="mainController">

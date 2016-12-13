@@ -23,8 +23,8 @@
                 controller: 'membersController'
             })
             .when('/organisations', {
-                templateUrl: 'app/components/organisations/organisationsView.html'
-                //controller: 'BlogController'
+                templateUrl: 'app/components/organisations/organisationsView.html',
+                controller: 'organisationsController'
             })
             .when('', {redirectTo:'/'})
             .otherwise({redirectTo:'/'});

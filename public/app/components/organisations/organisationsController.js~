@@ -1,0 +1,26 @@
+(function () {
+    var mod = angular.module('components');
+    
+    mod.controller('organisationsController', ['$scope', '$resource', function ($scope, $resource) {
+        // Should retrieve this form the API
+
+       // $scope.organisations = $resource('/todo/:todoId', { todoId:'@_id' }).query()
+       $resource('/api/v1/organizations').query(
+            function(data) {
+                //alert("success");
+                $scope.organisations = data;
+            }, function(error) {
+                alert("Error: " + error.statusText + " (" + error.status + ")");
+            }
+        );
+
+        /*[
+            {
+                name : "Organizacao",
+                logo : "../../../assets/img/logo.png",
+                website : "www.somesite.org",
+                intradepartment: true
+            },
+        ];*/
+    }]);
+})();

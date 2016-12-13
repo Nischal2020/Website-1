@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Http\Responses\CustomJsonResponse;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,15 +45,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
-        {
-            if(strpos($request->path(), 'api') === false){
-                return redirect('/');
-            }
-            else{
-                return new CustomJsonResponse(false, "Invalid endpoint", 404);
-            }
-        }
         return parent::render($request, $e);
     }
 }

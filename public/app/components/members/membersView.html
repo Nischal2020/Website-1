@@ -9,11 +9,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-6 col-sm-6">
-            <member-card data="members[0]"></member-card>
-        </div>
-        <div class="col-md-6 col-lg-6 col-sm-6">
-            <member-card data="members[0]"></member-card>
+
+        <div class="member" ng-repeat="member in members">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <member-card data="member"></member-card>
+            </div>
         </div>
     </div>
 </div>

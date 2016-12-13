@@ -6,7 +6,7 @@
             restrict: 'E',
             templateUrl: 'app/components/projects/projectCard/projectCardView.html',
             scope: {
-                member : '=data'
+                project : '=data'
             }
         };
     });
